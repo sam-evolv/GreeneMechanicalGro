@@ -1,0 +1,159 @@
+Rebuild the Greene Mechanical Group (GMG) website to match the cinematic polish and luxury tone of the OpenHouse AI site — dark, confident, tactile, and visually rich. Maintain the same content and structure, but upgrade the experience to feel like a professionally branded trades firm site.
+
+Include subtle motion, cinematic lighting, and background depth. Automatically generate a hero background image (DALL·E or Sora) to evoke craftsmanship, precision, and warmth — think gas flame hues, metallic surfaces, soft lighting gradients, and atmospheric depth.
+
+⚙️ Implementation Details
+
+1. Tech Stack
+
+Vite + TypeScript + Tailwind CSS (as before)
+
+Keep file structure identical (index.html, src/styles.css, site.config.ts, vite.config.ts, public/og.jpg)
+
+Keep Replit-specific fix: allowedHosts: ['.replit.dev']
+
+🎨 Design Aesthetic
+
+Backgrounds:
+
+Base: #0B0D10 → #111317 gradient
+
+Secondary panels: #14161B
+
+Subtle vignette and depth shadow under each section
+
+Accents:
+
+Gold: #D4B15F (with glow)
+
+Blue: #2892E5 for gas/flame highlights
+
+Text: #EAECEF (headings), #A9B0BA (body)
+
+Typography:
+
+Headings: Outfit, 600–700 weight
+
+Body: Inter, 400–500 weight
+
+Hero title gradient:
+
+.text-gradient {
+  background: linear-gradient(90deg, #d4b15f 0%, #f0d488 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+🔥 Hero Section
+
+Hero background image (auto-generated):
+
+“A cinematic close-up of a brass gas manifold glowing under warm light, faint blue gas flame reflections, dark metallic background, minimal and luxurious aesthetic — for a plumbing and heating brand.”
+
+Save as /assets/hero-bg.webp, load via:
+
+<section class="relative bg-hero bg-cover bg-center h-[95vh] flex flex-col items-center justify-center text-center">
+
+
+Add faint animated overlay gradient:
+
+.hero-overlay {
+  background: radial-gradient(circle at 50% 30%, rgba(40,146,229,0.15) 0%, transparent 70%);
+  animation: shimmer 12s ease-in-out infinite alternate;
+}
+@keyframes shimmer {
+  from { opacity: 0.3; transform: scale(1); }
+  to { opacity: 0.7; transform: scale(1.03); }
+}
+
+
+Centered text block:
+
+<h1 class="text-7xl md:text-8xl font-semibold text-gradient drop-shadow-xl">Greene Mechanical Group</h1>
+<p class="mt-4 text-xl md:text-2xl text-blue-300/90 font-medium">Gas · Heating · Plumbing</p>
+<div class="mt-8 flex gap-4">
+  <a href="tel:+353870000000" class="px-8 py-3 bg-gold text-black font-medium rounded-md hover:scale-105 transition">Call Now</a>
+  <a href="#contact" class="px-8 py-3 border border-gold text-gold rounded-md hover:bg-gold hover:text-black transition">Request a Quote</a>
+</div>
+
+🧱 Sections
+
+Services:
+
+2×3 grid with interactive cards
+
+Each card: subtle gold top border, shadow depth, hover translateY(-4px)
+
+Small animated icons (Lucide)
+
+About / Credentials:
+
+Include RGI badge (placeholder SVG)
+
+Add faint blue outer-glow ring behind badge
+
+Copy:
+
+“Cork-based RGI-certified mechanical contractors specialising in gas, heating, and plumbing systems for homes and businesses.”
+
+Process Timeline:
+
+Horizontal timeline with connecting gold line
+
+Steps fade-in sequentially on scroll
+
+Contact Form:
+
+Split layout: left text / right form
+
+Form with glassmorphic panel:
+
+.glass {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+
+Submit button transitions from gold → blue on hover
+
+🧠 Micro-Interactions
+
+Animate sections on scroll using Intersection Observer
+
+Hero text fades up with 400ms stagger
+
+Buttons scale subtly on hover
+
+Flame icon in header flickers softly via CSS keyframes
+
+⚡ Performance & Build
+
+Keep total bundle < 250 KB
+
+Lighthouse: Perf ≥ 95, Accessibility ≥ 95
+
+Host preview safe under Replit (use .replit.dev whitelist)
+
+Netlify form verified via data-netlify="true"
+
+📁 Final Deliverables
+
+/index.html — complete markup
+
+/src/styles.css — new theme + animations
+
+/assets/hero-bg.webp — generated cinematic background
+
+/assets/logo-gmg.svg — placeholder monogram with flame
+
+/vite.config.ts — includes allowedHosts: ['.replit.dev']
+
+/site.config.ts — real contact placeholders
+
+/README.md — edit instructions
+
+✅ End Goal
+
+The site should evoke craftsmanship and confidence, like a high-end mechanical contractor brand.
+It should feel alive, subtly moving, with warmth from flame tones and depth from metallic textures — a balance of engineering precision and premium design.
