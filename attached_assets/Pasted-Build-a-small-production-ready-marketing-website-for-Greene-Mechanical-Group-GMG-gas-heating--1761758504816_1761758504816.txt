@@ -1,0 +1,192 @@
+Build a small, production-ready marketing website for Greene Mechanical Group (GMG) — gas, heating, plumbing. Deliver in one repo, zero backends, deploy-ready for Netlify. Quality bar: sleek, minimalist, fast, accessible, subtle motion. No em dashes.
+
+1) Tech & structure
+
+Stack: Vite + vanilla TS + Tailwind CSS (no React), for speed and small bundle.
+
+Files:
+
+index.html (single page), assets/ for SVGs, public/ for favicon/social image.
+
+src/main.ts for light JS (sticky header, smooth scroll, reveal-on-scroll).
+
+src/styles.css with Tailwind base plus a small utilities layer.
+
+site.config.ts storing brand + contact so details can be changed in one place.
+
+robots.txt, sitemap.xml (static), README.md.
+
+Scripts: dev, build, preview.
+
+2) Brand tokens (match the card)
+
+Colours:
+
+--ink: #0B0D10 (near-black)
+
+--gold: #D4B15F
+
+--gas: #2892E5
+
+--text: #EAECEF
+
+--muted: #9AA3AE
+
+Typography: "Outfit" for headings, "Inter" for body via <link> from Google Fonts. Fallbacks: system UI.
+
+Icon set: Lucide (inline SVG), only the few needed (phone, mail, map, wrench, flame, shield, clock).
+
+3) Content (use placeholders where unknown; wire to site.config.ts)
+company: "Greene Mechanical Group",
+short: "GMG",
+owner: "Dan Greene",
+phoneDisplay: "+353 87 000 0000",   // TODO update
+phoneE164: "+353870000000",         // TODO update
+email: "hello@gmg-services.ie",     // TODO update
+serviceArea: "Cork & surrounding counties",
+address: "Cork, Ireland",
+certs: ["RGI-registered (Registered Gas Installer, Ireland)", "Fully insured"],
+tagline: "Gas / Heating / Plumbing",
+sectors: ["Domestic", "Commercial", "Industrial"]
+
+
+Services (show as 2 × 3 grid of cards):
+
+Boiler installation & replacement
+
+Annual servicing & safety certs
+
+Heating system upgrades & controls
+
+General plumbing repairs & leaks
+
+Bathrooms & fit-outs
+
+Hot-water cylinders & pressurised systems
+
+Optional seventh card hidden on mobile: Power flushing & system balancing
+
+Microcopy: transparent pricing, manufacturer-backed warranties, tidy workmanship.
+
+Process (4 steps row): Consult → Fixed Quote → Install → Maintain.
+
+About blurb (concise):
+“GMG is a Cork-based mechanical contractor led by Dan Greene. We deliver compliant installations, planned maintenance, and responsive call-outs across domestic, commercial, and light industrial projects. RGI-registered and fully insured.”
+
+Testimonials: two short placeholders with initials.
+
+4) Layout & UX (single page)
+
+Sticky header on transparent → solid on scroll; left: GMG monogram, right: nav (Services, Sectors, About, Contact) plus a primary CTA button “Call Dan”.
+
+Hero: centered logo mark (SVG flame), bold “GMG”, subline “Gas / Heating / Plumbing”. Two CTAs:
+
+Primary: “Call Now” → tel:${phoneE164}
+
+Secondary: “Request a Quote” → scroll to form
+Subtle flame micro-animation (CSS keyframes on gradient mask), parallax drop-shadow; maintain 60fps.
+
+Badges row: RGI-registered, Fully insured, Local expertise — small icons, high contrast.
+
+Services grid with hover lift, gold top border accent; reveal-on-scroll.
+
+Sectors strip: Domestic · Commercial · Industrial (three panels, blue accent for “Gas” motifs).
+
+Process timeline (4 compact cards).
+
+Contact block:
+
+Left: phone (click-to-call), email (mailto), service area, hours: Mon–Fri 08:00–18:00 (placeholder).
+
+Right: Netlify form: name, phone, email, service (select), message. Honeypot + basic required validation. Success state inline, no page reload.
+
+Footer: small logo, quick links, legal, © year auto.
+
+5) Visual details
+
+Dark canvas (--ink) with gold typography for key headings and gas blue for small highlights only.
+
+12-column fluid grid, generous whitespace, 72px section rhythm desktop, 48px tablet, 32px mobile.
+
+Motion: IntersectionObserver + translateY/opacity transitions (200–300ms). No heavy libraries.
+
+Maintain strong colour contrast (WCAG AA). Focus states visible.
+
+6) Assets
+
+Create assets/logo-gmg.svg (simple monogram + small flame). Keep it classy; make it easy to swap for a real logo later.
+
+Favicon: export 32×32 and 180×180 PNGs from the SVG flame.
+
+Social preview public/og.jpg (1200×630) with dark panel, GMG, tagline, gold rule.
+
+7) SEO & meta
+
+<title>: “GMG — Gas, Heating, Plumbing | Cork”
+
+Meta description: “RGI-registered gas, heating, and plumbing services across Cork. Boiler installs and servicing, heating upgrades, plumbing repairs, and fit-outs.”
+
+Open Graph + Twitter card using og.jpg.
+
+Canonical URL placeholder.
+
+robots.txt allow all; include sitemap.xml listing /.
+
+8) Schema.org (JSON-LD)
+
+Add LocalBusiness (type Plumber) with name, phones, email, service area, sameAs empty array, openingHours, areaServed: "Cork, IE".
+
+9) Forms & tracking
+
+Netlify form <form name="quote" data-netlify="true" netlify-honeypot="trap">.
+
+Optional: lightweight privacy-compliant pageview (no external analytics by default). Leave a commented hook.
+
+10) Accessibility & performance guards
+
+All images with alt.
+
+Prefetch fonts with preconnect.
+
+CSS under 25KB gzipped; no blocking JS in head.
+
+Lighthouse targets: Perf ≥ 95, Access ≥ 95.
+
+11) Acceptance criteria
+
+Running npm run build yields a minified dist/ ≤ 250KB total (first load).
+
+Header stickiness, reveal animations, and CTA links verified.
+
+Phone CTA uses E.164; easily updatable via site.config.ts.
+
+Form submits in Netlify build preview (include hidden form-name input).
+
+12) Delivery checklist
+
+Generate repo with code.
+
+Populate all copy with above placeholders.
+
+Add a README.md with:
+
+“How to run locally”
+
+“Where to change contact details” (point to site.config.ts)
+
+“How to deploy on Netlify”
+
+“How to replace the logo”.
+
+Provide a short changelog in the README.
+
+Now implement everything above. When done, print:
+
+The list of created files.
+
+A snippet of site.config.ts.
+
+The exact <head> meta and JSON-LD you generated.
+
+The Netlify form markup.
+End of prompt.
