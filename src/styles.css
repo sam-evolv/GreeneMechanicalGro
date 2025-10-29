@@ -12,6 +12,10 @@
     --gas: #2892E5;
     --text: #EAECEF;
     --text-muted: #A9B0BA;
+    --font-heading: 'Poppins', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --font-body: 'Inter', 'Segoe UI', Roboto, sans-serif;
+    --heading-weight: 600;
+    --body-weight: 400;
   }
 
   * {
@@ -25,17 +29,29 @@
   }
 
   body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: var(--font-body);
+    font-weight: var(--body-weight);
     background: linear-gradient(180deg, var(--ink) 0%, var(--ink-deep) 100%);
     color: var(--text);
-    line-height: 1.6;
+    line-height: 1.7;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Outfit', system-ui, -apple-system, sans-serif;
-    font-weight: 600;
+    font-family: var(--font-heading);
+    font-weight: var(--heading-weight);
     line-height: 1.2;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    text-rendering: geometricPrecision;
+  }
+
+  p, li {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--text-muted);
   }
 }
 
@@ -59,12 +75,35 @@
     background-clip: text;
   }
 
+  .hero-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2.8rem, 6vw, 6.5rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    line-height: 1.05;
+  }
+
+  .section-title {
+    font-family: var(--font-heading);
+    font-size: 2.25rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: -0.015em;
+  }
+
   .btn-primary {
-    @apply inline-flex items-center gap-2 px-8 py-3 bg-gold text-ink font-medium rounded-md transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-gold/30 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-ink;
+    @apply inline-flex items-center gap-2 px-8 py-3 bg-gold text-ink rounded-md transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-gold/30 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-ink;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center gap-2 px-8 py-3 border border-gold text-gold font-medium rounded-md transition-all duration-300 hover:bg-gold hover:text-ink hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-ink;
+    @apply inline-flex items-center gap-2 px-8 py-3 border border-gold text-gold rounded-md transition-all duration-300 hover:bg-gold hover:text-ink hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-ink;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
 
   .glass {

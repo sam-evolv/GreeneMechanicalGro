@@ -1,0 +1,84 @@
+Prompt:
+Refine the Greene Mechanical Group website’s typography system to achieve the same premium, precision-engineered aesthetic as the paid GT Walsheim Pro + Söhne combination — but using free, high-quality alternatives.
+Keep structure, layout, and colors identical. Focus on typography hierarchy, spacing, and optical balance.
+
+⚙️ Font Strategy
+Role	Font	Source	Rationale
+Headings / Buttons / CTAs	Poppins (600–700)	Google Fonts	Modern geometric sans with Walsheim-like rhythm. Tight tracking = engineered feel.
+Body / Paragraphs / Small Labels	Inter (400–500)	Google Fonts	Neutral, technical body font similar to Söhne. Exceptional on-screen clarity.
+🧩 Implementation Details
+
+1. Import Fonts (index.html)
+Replace any existing <link> tags for fonts with:
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+
+
+2. Update Global Font Tokens (src/styles.css)
+
+:root {
+  --font-heading: 'Poppins', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-body: 'Inter', 'Segoe UI', Roboto, sans-serif;
+  --heading-weight: 600;
+  --body-weight: 400;
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: var(--body-weight);
+  color: #EAECEF;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: var(--heading-weight);
+  letter-spacing: -0.02em;
+  text-rendering: geometricPrecision;
+}
+
+.hero-title {
+  font-size: clamp(2.8rem, 6vw, 6.5rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  line-height: 1.05;
+}
+
+h2.section-title {
+  font-size: 2.25rem;
+  text-transform: uppercase;
+  letter-spacing: -0.015em;
+  margin-bottom: 1.25rem;
+}
+
+p, li {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #A9B0BA;
+}
+
+button, a.btn {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+
+3. Visual Adjustments
+
+Add text-transform: uppercase; for headings to echo industrial engraving plates.
+
+Slightly reduce letter-spacing in CTAs for confident tightness.
+
+Keep hero headline gradient and color scheme unchanged.
+
+✅ Outcome
+
+Poppins + Inter combo delivers a Swiss-engineered, contemporary look that feels expensive without licensing costs.
+
+Reads clean and technical on every screen size.
+
+Perfectly matches the rest of the cinematic, metallic design system.
