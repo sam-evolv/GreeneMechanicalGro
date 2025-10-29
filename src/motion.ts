@@ -11,7 +11,6 @@ export class MotionSystem {
     this.setupSectionEntryAnimations()
     this.setupScrollLighting()
     this.setupMagneticButtons()
-    this.setupCursorGlow()
   }
 
   private setupScrollCoordinator(): void {
@@ -152,35 +151,6 @@ export class MotionSystem {
     window.addEventListener('mousemove', updateLighting, { passive: true })
   }
 
-  private setupCursorGlow(): void {
-    // Create cursor glow effect
-    const cursorGlow = document.createElement('div')
-    cursorGlow.className = 'cursor-glow'
-    document.body.appendChild(cursorGlow)
-
-    let currentX = 0
-    let currentY = 0
-    let targetX = 0
-    let targetY = 0
-
-    const updateCursor = (e: MouseEvent) => {
-      targetX = e.clientX
-      targetY = e.clientY
-    }
-
-    const animateCursor = () => {
-      currentX += (targetX - currentX) * 0.15
-      currentY += (targetY - currentY) * 0.15
-      
-      cursorGlow.style.transform = `translate(${currentX}px, ${currentY}px)`
-      requestAnimationFrame(animateCursor)
-    }
-
-    window.addEventListener('mousemove', updateCursor, { passive: true })
-    animateCursor()
-  }
-
-
   private setupMagneticButtons(): void {
     const buttons = document.querySelectorAll<HTMLElement>('.btn-primary, .btn-secondary, a[href^="#"]')
     
@@ -216,8 +186,8 @@ export class MotionSystem {
       btn.addEventListener('mouseleave', handleMouseLeave)
     })
 
-    // Add magnetic glow to service cards
-    const cards = document.querySelectorAll<HTMLElement>('.service-card')
+    // Add magnetic glow to service cards and sector cards
+    const cards = document.querySelectorAll<HTMLElement>('.service-card, .card')
     cards.forEach(card => {
       card.style.position = 'relative'
       card.style.overflow = 'hidden'
