@@ -12,6 +12,14 @@ dist
 dist-ssr
 *.local
 
+# Python (used only for build scripts)
+*.py[cod]
+__pycache__/
+.pythonlibs/
+*.egg-info/
+pyproject.toml
+uv.lock
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
