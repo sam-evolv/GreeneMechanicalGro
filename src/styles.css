@@ -234,23 +234,31 @@
   }
 }
 
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
 .logo-gmg {
   width: auto;
-  height: 100px;
-  transition: transform 0.6s ease;
-  animation: flameGlow 3s ease-in-out infinite alternate;
-  will-change: filter, opacity;
+  height: 175px;
+  animation: flameGlow 3s ease-in-out infinite alternate, breathe 4s ease-in-out infinite;
+  will-change: filter, opacity, transform;
 }
 
 @media (max-width: 1024px) {
   .logo-gmg {
-    height: 70px;
+    height: 122px;
   }
 }
 
 @media (max-width: 640px) {
   .logo-gmg {
-    height: 50px;
+    height: 87px;
   }
 }
 
