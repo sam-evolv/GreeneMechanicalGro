@@ -219,6 +219,41 @@
   }
 }
 
+@keyframes flameGlow {
+  0% {
+    filter: drop-shadow(0 0 6px rgba(40, 146, 229, 0.4));
+    opacity: 0.9;
+  }
+  50% {
+    filter: drop-shadow(0 0 12px rgba(40, 146, 229, 0.7));
+    opacity: 1;
+  }
+  100% {
+    filter: drop-shadow(0 0 6px rgba(40, 146, 229, 0.4));
+    opacity: 0.9;
+  }
+}
+
+.logo-gmg {
+  width: auto;
+  height: 100px;
+  transition: transform 0.6s ease;
+  animation: flameGlow 3s ease-in-out infinite alternate;
+  will-change: filter, opacity;
+}
+
+@media (max-width: 1024px) {
+  .logo-gmg {
+    height: 70px;
+  }
+}
+
+@media (max-width: 640px) {
+  .logo-gmg {
+    height: 50px;
+  }
+}
+
 .flame-animate {
   animation: flame-flicker 3s ease-in-out infinite, flame-glow 2s ease-in-out infinite;
   will-change: transform, filter;
