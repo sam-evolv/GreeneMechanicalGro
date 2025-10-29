@@ -1,4 +1,5 @@
 import './styles.css'
+import { siteConfig } from '../site.config'
 
 class GMGWebsite {
   private header: HTMLElement | null = null
@@ -9,10 +10,77 @@ class GMGWebsite {
   }
 
   private init(): void {
+    this.populateContactInfo()
+    this.updateSchemaOrg()
     this.setupStickyHeader()
     this.setupSmoothScroll()
     this.setupRevealAnimations()
     this.setupFormHandler()
+  }
+
+  private updateSchemaOrg(): void {
+    const schemaScript = document.querySelector('script[type="application/ld+json"]')
+    if (schemaScript) {
+      const locality = siteConfig.address.split(',')[0].trim()
+      const areaName = siteConfig.serviceArea.split('&')[0].trim()
+      
+      const schema = {
+        "@context": "https://schema.org",
+        "@type": "Plumber",
+        "name": siteConfig.company,
+        "alternateName": siteConfig.short,
+        "description": siteConfig.meta.description,
+        "url": siteConfig.meta.siteUrl,
+        "telephone": siteConfig.phoneE164,
+        "email": siteConfig.email,
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": locality,
+          "addressCountry": "IE"
+        },
+        "areaServed": {
+          "@type": "City",
+          "name": areaName,
+          "containedIn": {
+            "@type": "Country",
+            "name": "IE"
+          }
+        },
+        "openingHours": siteConfig.hours.replace(/Mon-Fri/i, 'Mo-Fr').replace(/\s+/g, ' '),
+        "sameAs": [],
+        "priceRange": "$$"
+      }
+      schemaScript.textContent = JSON.stringify(schema, null, 2)
+    }
+  }
+
+  private populateContactInfo(): void {
+    document.querySelectorAll('[data-phone]').forEach(el => {
+      if (el instanceof HTMLAnchorElement) {
+        el.href = `tel:${siteConfig.phoneE164}`
+      }
+      if (el.hasAttribute('data-phone-display')) {
+        el.textContent = siteConfig.phoneDisplay
+      }
+    })
+
+    document.querySelectorAll('[data-email]').forEach(el => {
+      if (el instanceof HTMLAnchorElement) {
+        el.href = `mailto:${siteConfig.email}`
+      }
+      if (el.hasAttribute('data-email-display')) {
+        el.textContent = siteConfig.email
+      }
+    })
+
+    const serviceAreaEl = document.querySelector('[data-service-area]')
+    if (serviceAreaEl) serviceAreaEl.textContent = siteConfig.serviceArea
+
+    const hoursEl = document.querySelector('[data-hours]')
+    if (hoursEl) hoursEl.textContent = siteConfig.hours
+
+    const taglineEl = document.querySelector('[data-tagline]')
+    if (taglineEl) taglineEl.textContent = siteConfig.tagline
   }
 
   private setupStickyHeader(): void {

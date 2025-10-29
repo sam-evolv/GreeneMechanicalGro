@@ -72,7 +72,7 @@ All contact information, services, and brand details are centralized in **`site.
 - `hours` - Business hours
 - `meta.siteUrl` - Your actual domain when deployed
 
-Simply edit `site.config.ts` and the changes will automatically appear across the entire website.
+Simply edit `site.config.ts` and the changes will automatically appear across the entire website. The JavaScript in `src/main.ts` dynamically populates contact information from the config file into the HTML, ensuring a single source of truth. This also updates the Schema.org JSON-LD for SEO automatically.
 
 ## How to Deploy on Netlify
 
