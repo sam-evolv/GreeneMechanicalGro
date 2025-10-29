@@ -1,5 +1,6 @@
 import './styles.css'
 import { siteConfig } from '../site.config'
+import { MotionSystem } from './motion'
 
 class GMGWebsite {
   private header: HTMLElement | null = null
@@ -213,4 +214,5 @@ class GMGWebsite {
 
 document.addEventListener('DOMContentLoaded', () => {
   new GMGWebsite()
+  new MotionSystem()
 })

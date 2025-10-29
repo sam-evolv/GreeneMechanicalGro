@@ -1,0 +1,138 @@
+Enhance the Greene Mechanical Group website with scroll-synchronized motion, parallax depth, and subtle reactive physics across all key elements. Preserve the dark-luxury styling, gold-blue palette, and current animations, but add intelligent motion that reinforces the brand’s precision and craftsmanship.
+
+⚙️ Implementation Scope
+1. Scroll-Synced Hero Parallax
+
+Add multi-layer parallax to the hero section:
+
+Background image: moves at 0.5× scroll speed.
+
+Logo: moves slightly slower (0.3×) with a small scale (breathing continues).
+
+Text content: fades in with scroll position (opacity 0 → 1 between 0–20% scroll).
+
+Use JavaScript with requestAnimationFrame and window.scrollY for smooth motion.
+
+const hero = document.querySelector('.bg-hero');
+const logo = document.querySelector('.logo-gmg');
+const text = document.querySelector('.hero-title');
+
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+  hero.style.transform = `translateY(${scrollY * 0.5}px)`;
+  logo.style.transform = `translateY(${scrollY * 0.3}px) scale(${1 + scrollY * 0.0005})`;
+  text.style.opacity = Math.max(1 - scrollY / 400, 0);
+});
+
+2. Section Entry Animations
+
+Use IntersectionObserver to animate sections as they come into view.
+
+Fade up, slide in, and glow effects on .service-card, .section-title, and .contact-form.
+
+Each section animates only once for a cinematic rhythm.
+
+const sections = document.querySelectorAll('.fade-section');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.2 });
+
+sections.forEach(sec => observer.observe(sec));
+
+.fade-section { opacity: 0; transform: translateY(50px); transition: all 1s ease; }
+.fade-section.visible { opacity: 1; transform: translateY(0); }
+
+3. Scroll-Triggered Lighting
+
+Add a moving light sweep that follows scroll progress across the page background:
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: -50%;
+  width: 200%;
+  height: 100%;
+  background: radial-gradient(circle at var(--x, 50%) var(--y, 30%), rgba(40,146,229,0.08), transparent 70%);
+  pointer-events: none;
+  transition: background-position 0.2s ease-out;
+}
+
+window.addEventListener('mousemove', e => {
+  document.body.style.setProperty('--x', `${e.clientX}px`);
+  document.body.style.setProperty('--y', `${e.clientY}px`);
+});
+
+
+This creates a live glow that subtly follows cursor movement across the dark surface.
+
+4. Reactive Flame Animation (Logo)
+
+Add a flame reflection pulse that responds to scroll velocity:
+The faster the user scrolls, the brighter and larger the blue glow behind the flame.
+
+let lastScroll = 0;
+window.addEventListener('scroll', () => {
+  const velocity = Math.abs(window.scrollY - lastScroll);
+  lastScroll = window.scrollY;
+  const glow = Math.min(velocity / 20, 12);
+  document.querySelector('.logo-gmg').style.filter =
+    `drop-shadow(0 0 ${glow}px rgba(40,146,229,0.7))`;
+});
+
+5. Magnetic Buttons
+
+Add a magnetic hover effect for primary CTAs:
+
+const buttons = document.querySelectorAll('a, button');
+buttons.forEach(btn => {
+  btn.addEventListener('mousemove', e => {
+    const rect = btn.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    btn.style.setProperty('--x', `${x}px`);
+    btn.style.setProperty('--y', `${y}px`);
+  });
+  btn.addEventListener('mouseleave', () => {
+    btn.style.removeProperty('--x');
+    btn.style.removeProperty('--y');
+  });
+});
+
+button, a {
+  position: relative;
+  overflow: hidden;
+}
+button::before, a::before {
+  content: '';
+  position: absolute;
+  top: var(--y);
+  left: var(--x);
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(212,177,95,0.3) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease;
+}
+button:hover::before, a:hover::before {
+  width: 200px; height: 200px;
+}
+
+
+This creates a high-end spotlight hover reaction that feels physical.
+
+6. Smooth Reveal of Footer
+
+As users near the bottom, fade in the footer and enlarge the GMG logo slightly.
+
+const footer = document.querySelector('footer');
+window.addEventListener('scroll', () => {
+  const trigger = document.body.scrollHeight - window.innerHeight - 300;
+  if (window.scrollY > trigger) footer.classList.add('reveal');
+});
+
+footer { opacity: 0; transform: translateY(40px); transition: all 1s ease; }
+footer.reveal { opacity: 1; transform: translateY(0); }
+
+✅ Expected Outcome
