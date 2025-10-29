@@ -1,0 +1,18 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Flame icon -->
+  <g id="flame">
+    <path d="M60 20C60 20 50 35 50 45C50 52.18 54.82 58 62 58C69.18 58 74 52.18 74 45C74 35 64 20 64 20C64 20 70 30 70 38C70 42.97 66.97 47 62 47C57.03 47 54 42.97 54 38C54 30 60 20 60 20Z" fill="url(#flameGradient)" />
+    <path d="M62 47C62 47 65 50 65 54C65 56.76 62.76 59 60 59C57.24 59 55 56.76 55 54C55 50 58 47 58 47C58 47 60 48.5 60 51C60 52.1 59.1 53 58 53C56.9 53 56 52.1 56 51C56 48.5 58 47 58 47" fill="#FFD700"/>
+  </g>
+  
+  <!-- Monogram GMG -->
+  <text x="60" y="90" font-family="Outfit, sans-serif" font-size="28" font-weight="700" fill="#D4B15F" text-anchor="middle" letter-spacing="2">GMG</text>
+  
+  <defs>
+    <linearGradient id="flameGradient" x1="60" y1="20" x2="60" y2="59" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#D4B15F"/>
+      <stop offset="50%" stop-color="#F4A460"/>
+      <stop offset="100%" stop-color="#FFD700"/>
+    </linearGradient>
+  </defs>
+</svg>
