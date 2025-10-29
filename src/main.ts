@@ -15,6 +15,7 @@ class GMGWebsite {
     this.setupStickyHeader()
     this.setupSmoothScroll()
     this.setupRevealAnimations()
+    this.setupHeroAnimations()
     this.setupFormHandler()
   }
 
@@ -86,7 +87,7 @@ class GMGWebsite {
   private setupStickyHeader(): void {
     this.header = document.querySelector('header')
     if (!this.header) return
-
+    
     window.addEventListener('scroll', () => {
       const currentScroll = window.pageYOffset
 
@@ -95,7 +96,7 @@ class GMGWebsite {
       } else {
         this.header?.classList.remove('header-scrolled')
       }
-    })
+    }, { passive: true })
   }
 
   private setupSmoothScroll(): void {
@@ -103,7 +104,7 @@ class GMGWebsite {
       anchor.addEventListener('click', (e) => {
         e.preventDefault()
         const href = anchor.getAttribute('href')
-        if (!href) return
+        if (!href || href === '#') return
 
         const target = document.querySelector(href)
         if (target) {
@@ -120,6 +121,15 @@ class GMGWebsite {
     })
   }
 
+  private setupHeroAnimations(): void {
+    setTimeout(() => {
+      const heroElements = document.querySelectorAll('.stagger-1, .stagger-2, .stagger-3, .stagger-4')
+      heroElements.forEach((el) => {
+        el.classList.add('active')
+      })
+    }, 300)
+  }
+
   private setupRevealAnimations(): void {
     this.observer = new IntersectionObserver(
       (entries) => {
@@ -132,12 +142,17 @@ class GMGWebsite {
       },
       {
         threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+        rootMargin: '0px 0px -80px 0px'
       }
     )
 
     document.querySelectorAll('.reveal').forEach(el => {
-      this.observer?.observe(el)
+      if (!el.classList.contains('stagger-1') && 
+          !el.classList.contains('stagger-2') && 
+          !el.classList.contains('stagger-3') && 
+          !el.classList.contains('stagger-4')) {
+        this.observer?.observe(el)
+      }
     })
   }
 
