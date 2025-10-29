@@ -1,5 +1,4 @@
 import './styles.css'
-import { siteConfig } from '../site.config'
 
 class GMGWebsite {
   private header: HTMLElement | null = null
@@ -20,8 +19,6 @@ class GMGWebsite {
     this.header = document.querySelector('header')
     if (!this.header) return
 
-    let lastScroll = 0
-
     window.addEventListener('scroll', () => {
       const currentScroll = window.pageYOffset
 
@@ -30,8 +27,6 @@ class GMGWebsite {
       } else {
         this.header?.classList.remove('header-scrolled')
       }
-
-      lastScroll = currentScroll
     })
   }
 
