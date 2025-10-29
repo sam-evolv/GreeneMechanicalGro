@@ -1,0 +1,73 @@
+Remove all remaining blue cursor-trail or glow effects from the site. Then implement consistent, high-quality hover effects for all interactive content boxes:
+
+Services cards
+
+Sectors Served cards
+
+How We Work cards
+
+Maintain cinematic polish and the gold/blue brand palette but keep the hover behaviour subtle, responsive, and professional.
+
+⚙️ Implementation Steps
+1. Remove Blue Cursor Glow
+
+Delete or disable any JavaScript or CSS referencing cursor or spotlight tracking (look for selectors like body::before, .cursor-glow, or JS events tied to mousemove).
+
+Confirm no pseudo-elements remain that use radial-gradient or background: rgba(40,146,229, …) tied to the cursor position.
+
+2. Add Unified Hover Effect (Services, Sectors, How We Work)
+
+Enhance all card elements with:
+
+Soft elevation on hover (translateY(-6px)),
+
+Blue-gold edge glow using gradient border,
+
+Subtle interior light pulse.
+
+.card, .service-card, .sector-card, .work-step {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.card:hover, .service-card:hover, .sector-card:hover, .work-step:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 25px rgba(40,146,229,0.25), 0 0 10px rgba(212,177,95,0.15);
+  border-color: rgba(212,177,95,0.4);
+  background: radial-gradient(circle at 50% 30%, rgba(40,146,229,0.08), rgba(255,255,255,0.01) 70%);
+}
+
+
+Add a faint animated highlight edge:
+
+.card::after, .service-card::after, .sector-card::after, .work-step::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(40,146,229,0.2), rgba(212,177,95,0.2));
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.card:hover::after, .service-card:hover::after, .sector-card:hover::after, .work-step:hover::after {
+  opacity: 1;
+}
+
+3. Responsive & Performance
+
+Use only transform and opacity for animation (GPU-accelerated).
+
+Include will-change: transform, box-shadow; for smoother motion.
+
+Confirm these effects run at 60 fps on mobile and desktop.
+
+✅ Outcome
+
+Cursor glow fully removed (no trailing or ambient blue light).
+
+All major content boxes (Services, Sectors, How We Work) now have elegant lift-and-glow interactions.
+
+Cohesive, premium motion language consistent with your brand palette and cinematic depth.

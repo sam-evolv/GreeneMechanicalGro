@@ -377,66 +377,39 @@ button[type="submit"]:hover {
   transform: translateY(0);
 }
 
-/* Scroll-triggered lighting overlay */
-.scroll-lighting {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle 600px at var(--x, 50%) var(--y, 30%), rgba(40, 146, 229, 0.08), transparent 70%);
-  pointer-events: none;
-  z-index: 1;
-  transition: background 0.15s ease-out;
-  will-change: background;
+/* Unified Card Hover Effects */
+.service-card,
+.card {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, box-shadow;
 }
 
-/* Magnetic button effects */
-.btn-primary::before,
-.btn-secondary::before,
-a[href^="#"]::before {
-  content: '';
-  position: absolute;
-  top: var(--y, 50%);
-  left: var(--x, 50%);
-  width: 0;
-  height: 0;
-  background: radial-gradient(circle, rgba(212, 177, 95, 0.25) 0%, transparent 70%);
-  transform: translate(-50%, -50%);
-  transition: width 0.4s ease, height 0.4s ease;
-  pointer-events: none;
-  border-radius: 50%;
+.service-card:hover,
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 25px rgba(40, 146, 229, 0.25), 0 0 10px rgba(212, 177, 95, 0.15);
+  border-color: rgba(212, 177, 95, 0.4);
+  background: radial-gradient(circle at 50% 30%, rgba(40, 146, 229, 0.08), rgba(255, 255, 255, 0.04) 70%);
 }
 
-.btn-primary:hover::before,
-.btn-secondary:hover::before,
-a[href^="#"]:hover::before {
-  width: 250px;
-  height: 250px;
-}
-
-/* Card magnetic glow (services and sectors) */
-.service-card::before,
-.card::before {
+/* Animated highlight edge on hover */
+.service-card::after,
+.card::after {
   content: '';
   position: absolute;
-  top: var(--card-y, 50%);
-  left: var(--card-x, 50%);
-  width: 0;
-  height: 0;
-  background: radial-gradient(circle, rgba(40, 146, 229, 0.15) 0%, transparent 60%);
-  transform: translate(-50%, -50%);
-  transition: width 0.5s ease, height 0.5s ease;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(40, 146, 229, 0.2), rgba(212, 177, 95, 0.2));
+  opacity: 0;
+  transition: opacity 0.5s ease;
   pointer-events: none;
-  border-radius: 50%;
-  z-index: 0;
+  border-radius: inherit;
 }
 
-.service-card:hover::before,
-.card:hover::before {
-  width: 300px;
-  height: 300px;
+.service-card:hover::after,
+.card:hover::after {
+  opacity: 1;
 }
 
 .service-card > *,
@@ -471,11 +444,13 @@ a[href^="#"]:hover::before {
 
 /* Mobile optimization - disable parallax on touch devices */
 @media (max-width: 768px) {
-  .scroll-lighting {
-    display: none;
-  }
-  
   .bg-hero {
     transform: none !important;
+  }
+  
+  /* Reduce hover lift on mobile for better touch interaction */
+  .service-card:hover,
+  .card:hover {
+    transform: translateY(-3px);
   }
 }

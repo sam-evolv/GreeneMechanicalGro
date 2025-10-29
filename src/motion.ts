@@ -1,7 +1,4 @@
 export class MotionSystem {
-  private mouseX = 0
-  private mouseY = 0
-
   constructor() {
     this.init()
   }
@@ -9,8 +6,7 @@ export class MotionSystem {
   private init(): void {
     this.setupScrollCoordinator()
     this.setupSectionEntryAnimations()
-    this.setupScrollLighting()
-    this.setupMagneticButtons()
+    this.setupCardHoverEffects()
   }
 
   private setupScrollCoordinator(): void {
@@ -134,80 +130,12 @@ export class MotionSystem {
     })
   }
 
-  private setupScrollLighting(): void {
-    // Create dynamic lighting overlay
-    const lightingOverlay = document.createElement('div')
-    lightingOverlay.className = 'scroll-lighting'
-    document.body.appendChild(lightingOverlay)
-
-    const updateLighting = (e: MouseEvent) => {
-      this.mouseX = e.clientX
-      this.mouseY = e.clientY
-      
-      lightingOverlay.style.setProperty('--x', `${this.mouseX}px`)
-      lightingOverlay.style.setProperty('--y', `${this.mouseY}px`)
-    }
-
-    window.addEventListener('mousemove', updateLighting, { passive: true })
-  }
-
-  private setupMagneticButtons(): void {
-    const buttons = document.querySelectorAll<HTMLElement>('.btn-primary, .btn-secondary, a[href^="#"]')
-    
-    buttons.forEach(btn => {
-      // Add magnetic container
-      btn.style.position = 'relative'
-      btn.style.overflow = 'hidden'
-
-      const handleMouseMove = (e: MouseEvent) => {
-        const rect = btn.getBoundingClientRect()
-        const x = e.clientX - rect.left
-        const y = e.clientY - rect.top
-        
-        btn.style.setProperty('--x', `${x}px`)
-        btn.style.setProperty('--y', `${y}px`)
-
-        // Subtle magnetic pull
-        const centerX = rect.width / 2
-        const centerY = rect.height / 2
-        const deltaX = (x - centerX) / centerX
-        const deltaY = (y - centerY) / centerY
-        
-        btn.style.transform = `translate(${deltaX * 3}px, ${deltaY * 3}px) scale(1.02)`
-      }
-
-      const handleMouseLeave = () => {
-        btn.style.removeProperty('--x')
-        btn.style.removeProperty('--y')
-        btn.style.transform = ''
-      }
-
-      btn.addEventListener('mousemove', handleMouseMove)
-      btn.addEventListener('mouseleave', handleMouseLeave)
-    })
-
-    // Add magnetic glow to service cards and sector cards
+  private setupCardHoverEffects(): void {
+    // Ensure all cards have proper overflow and position for hover effects
     const cards = document.querySelectorAll<HTMLElement>('.service-card, .card')
     cards.forEach(card => {
       card.style.position = 'relative'
       card.style.overflow = 'hidden'
-
-      const handleMouseMove = (e: MouseEvent) => {
-        const rect = card.getBoundingClientRect()
-        const x = e.clientX - rect.left
-        const y = e.clientY - rect.top
-        
-        card.style.setProperty('--card-x', `${x}px`)
-        card.style.setProperty('--card-y', `${y}px`)
-      }
-
-      const handleMouseLeave = () => {
-        card.style.removeProperty('--card-x')
-        card.style.removeProperty('--card-y')
-      }
-
-      card.addEventListener('mousemove', handleMouseMove)
-      card.addEventListener('mouseleave', handleMouseLeave)
     })
   }
 
