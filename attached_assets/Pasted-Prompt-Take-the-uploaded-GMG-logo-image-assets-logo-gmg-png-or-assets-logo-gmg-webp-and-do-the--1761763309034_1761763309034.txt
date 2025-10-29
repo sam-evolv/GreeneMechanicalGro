@@ -1,0 +1,74 @@
+Prompt:
+Take the uploaded GMG logo image (/assets/logo-gmg.png or /assets/logo-gmg.webp) and do the following:
+
+Background Removal
+
+Automatically remove any white or checkered background to create a clean transparent PNG.
+
+Save as:
+
+/assets/logo-gmg-clean.png
+
+
+Optimize for web (≤200 KB, 2× retina resolution).
+
+Hero Integration
+
+Replace the text-only “GMG” in the hero with the cleaned logo.
+
+Position: centered above the heading “Greene Mechanical Group.”
+
+Height: 100 px desktop, 70 px tablet, 50 px mobile.
+
+Maintain original aspect ratio.
+
+Add subtle flame glow animation (CSS keyframes, gentle pulse with opacity 0.8→1→0.8).
+
+Implementation Code
+Update the hero section in index.html:
+
+<section class="relative bg-hero bg-cover bg-center h-[95vh] flex flex-col items-center justify-center text-center">
+  <img src="/assets/logo-gmg-clean.png" alt="Greene Mechanical Group logo" class="logo-gmg mb-6 mx-auto drop-shadow-lg" />
+  <h1 class="hero-title text-gradient">Greene Mechanical Group</h1>
+  <p class="mt-4 text-xl md:text-2xl text-blue-300/90 font-medium">Gas · Heating · Plumbing</p>
+  <div class="mt-8 flex gap-4">
+    <a href="tel:+353870000000" class="px-8 py-3 bg-gold text-black font-medium rounded-md hover:scale-105 transition">Call Now</a>
+    <a href="#contact" class="px-8 py-3 border border-gold text-gold rounded-md hover:bg-gold hover:text-black transition">Request a Quote</a>
+  </div>
+</section>
+
+
+Styling (src/styles.css)
+
+.logo-gmg {
+  width: auto;
+  height: 100px;
+  transition: transform 0.6s ease;
+  animation: flameGlow 3s ease-in-out infinite alternate;
+}
+
+@media (max-width: 1024px) { .logo-gmg { height: 70px; } }
+@media (max-width: 640px)  { .logo-gmg { height: 50px; } }
+
+@keyframes flameGlow {
+  0%   { filter: drop-shadow(0 0 6px rgba(40,146,229,0.4)); opacity: 0.9; }
+  50%  { filter: drop-shadow(0 0 12px rgba(40,146,229,0.7)); opacity: 1; }
+  100% { filter: drop-shadow(0 0 6px rgba(40,146,229,0.4)); opacity: 0.9; }
+}
+
+
+Accessibility
+
+Add alt="Greene Mechanical Group logo"
+
+Ensure it remains visible against dark backgrounds (use a faint gold halo if needed).
+
+✅ Result
+
+Transparent, professional GMG logo integrated directly into the hero.
+
+Subtle flame animation and soft glow to tie in with the brand’s gas theme.
+
+Scales elegantly across all devices.
+
+Instantly lifts the visual identity to a polished, studio-level presentation.
