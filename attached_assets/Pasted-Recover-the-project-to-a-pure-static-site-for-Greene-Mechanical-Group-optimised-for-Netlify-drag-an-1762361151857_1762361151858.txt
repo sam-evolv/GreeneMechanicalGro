@@ -1,0 +1,120 @@
+Recover the project to a pure static site for Greene Mechanical Group, optimised for Netlify drag-and-drop (no build). Preserve the existing Vite/Tailwind code in a safety branch and on-disk archive. Output a downloadable gmg-netlify-deploy.zip at repo root.
+
+Symptoms to resolve
+
+Repo contains both a Vite app (src/, package.json, vite.config.*, Tailwind/PostCSS files) and a static folder (gmg-site/).
+
+Netlify tries to “build” because package.json exists at root, even for drag-and-drop.
+
+Replit preview is confused by mixed tooling.
+
+Do this exactly
+
+Create a safety branch + archive
+
+Create a new Git branch: static-rescue-<YYYYMMDD-HHMM>.
+
+Create a folder /_archive/vite/.
+
+Move these into /_archive/vite/ if they exist:
+
+package.json, pnpm-lock.yaml, yarn.lock, package-lock.json
+
+vite.config.*, tailwind.config.*, postcss.config.*, .nvmrc, tsconfig.json
+
+src/, public/, node_modules/
+
+any replit.nix or .replit that starts a Node server
+
+Commit the move on the safety branch.
+
+Promote the static site to project root
+
+If a gmg-site/ folder exists, copy its contents (not the folder) to repo root.
+
+Ensure the root now has exactly:
+
+index.html
+css/main.css
+js/main.js
+assets/** (img/icons)
+netlify.toml
+site.webmanifest
+robots.txt
+sitemap.xml
+README.md
+
+
+Rewrite any absolute asset links to relative (./css/..., ./js/..., ./assets/...).
+
+Verify index.html includes:
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+one stylesheet ./css/main.css
+
+one script ./js/main.js with defer
+
+Netlify Forms attributes on the contact form (data-netlify="true", hidden form-name)
+
+Neutralise build detection
+
+Confirm no package.json or lockfiles remain at the root.
+
+Keep netlify.toml with:
+
+[build]
+  publish = "."
+  command = ""
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+    Cache-Control = "public, max-age=0, must-revalidate"
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+
+(Replit preview) Serve as static
+
+If a .replit file exists, replace its content with:
+
+run = "python3 -m http.server 8000"
+
+
+Otherwise, do nothing (Static HTML/CSS/JS template will just serve index.html).
+
+Validate
+
+Open preview at widths 360, 768, 1024, 1440: no horizontal scroll; hamburger nav toggles with aria-expanded; images responsive; no console errors.
+
+Package
+
+Create gmg-netlify-deploy.zip at repo root containing only the static files listed in step 2 (no _archive, no git folders).
+
+Also create DEPLOYMENT-READY.md with:
+
+“Netlify → Sites → Drag-and-drop the zip”
+
+Build command: (blank), Publish directory: .
+
+If using Git later, do not reintroduce package.json at root unless you want a build.
+
+Output
+
+Print the absolute path to the zip in the Replit workspace.
+
+Final message to return
+
+Static rescue complete.
+ZIP ready for Netlify drag-and-drop (no build):
+<absolute-path>/gmg-netlify-deploy.zip
+
+Your Vite/Tailwind code is preserved under branch:
+static-rescue-<timestamp>
+and on disk at: /_archive/vite/
