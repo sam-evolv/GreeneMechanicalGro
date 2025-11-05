@@ -221,6 +221,33 @@ class GMGWebsite {
 
     if (!menuButton || !mobileMenu || !hamburgerIcon || !closeIcon) return
 
+    const getFocusableElements = (): HTMLElement[] => {
+      const focusableSelectors = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      return Array.from(mobileMenu.querySelectorAll(focusableSelectors)) as HTMLElement[]
+    }
+
+    const trapFocus = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return
+      
+      const focusableElements = getFocusableElements()
+      if (focusableElements.length === 0) return
+
+      const firstElement = focusableElements[0]
+      const lastElement = focusableElements[focusableElements.length - 1]
+
+      if (e.shiftKey) {
+        if (document.activeElement === firstElement) {
+          e.preventDefault()
+          lastElement.focus()
+        }
+      } else {
+        if (document.activeElement === lastElement) {
+          e.preventDefault()
+          firstElement.focus()
+        }
+      }
+    }
+
     const toggleMenu = () => {
       const isExpanded = menuButton.getAttribute('aria-expanded') === 'true'
       
@@ -231,14 +258,18 @@ class GMGWebsite {
         hamburgerIcon.classList.remove('hidden')
         closeIcon.classList.add('hidden')
         document.body.style.overflow = ''
+        mobileMenu.removeEventListener('keydown', trapFocus)
       } else {
         mobileMenu.removeAttribute('hidden')
         hamburgerIcon.classList.add('hidden')
         closeIcon.classList.remove('hidden')
         document.body.style.overflow = 'hidden'
+        mobileMenu.addEventListener('keydown', trapFocus)
         
-        const firstLink = menuLinks[0] as HTMLElement
-        if (firstLink) firstLink.focus()
+        const focusableElements = getFocusableElements()
+        if (focusableElements.length > 0) {
+          focusableElements[0].focus()
+        }
       }
     }
 
@@ -248,6 +279,7 @@ class GMGWebsite {
       hamburgerIcon.classList.remove('hidden')
       closeIcon.classList.add('hidden')
       document.body.style.overflow = ''
+      mobileMenu.removeEventListener('keydown', trapFocus)
     }
 
     menuButton.addEventListener('click', toggleMenu)
@@ -255,6 +287,7 @@ class GMGWebsite {
     menuLinks.forEach(link => {
       link.addEventListener('click', () => {
         closeMenu()
+        menuButton.focus()
       })
     })
 
@@ -273,6 +306,7 @@ class GMGWebsite {
         !menuButton.contains(target)
       ) {
         closeMenu()
+        menuButton.focus()
       }
     })
   }
