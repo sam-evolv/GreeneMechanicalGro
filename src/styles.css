@@ -49,9 +49,13 @@
   }
 
   p, li {
-    font-size: 1.05rem;
+    font-size: clamp(0.95rem, 2vw, 1.05rem);
     line-height: 1.8;
     color: var(--text-muted);
+  }
+  
+  body {
+    overflow-x: hidden;
   }
 }
 
@@ -77,7 +81,7 @@
 
   .hero-title {
     font-family: var(--font-heading);
-    font-size: clamp(2.8rem, 6vw, 6.5rem);
+    font-size: clamp(2rem, 8vw, 6.5rem);
     font-weight: 700;
     letter-spacing: -0.03em;
     text-transform: uppercase;
@@ -86,7 +90,7 @@
 
   .section-title {
     font-family: var(--font-heading);
-    font-size: 2.25rem;
+    font-size: clamp(1.75rem, 5vw, 2.25rem);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: -0.015em;
@@ -442,10 +446,54 @@ button[type="submit"]:hover {
   transition: opacity 0.3s ease-out;
 }
 
+/* Mobile Menu Styles */
+.mobile-menu {
+  background: var(--panel);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobile-menu[hidden] {
+  display: none;
+}
+
 /* Mobile optimization - disable parallax on touch devices */
 @media (max-width: 768px) {
   .bg-hero {
     transform: none !important;
+    height: 100vh !important;
+    min-height: 600px;
+  }
+  
+  .logo-gmg {
+    height: 100px !important;
+  }
+  
+  .section-padding {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .section-spacing {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
   }
   
   /* Reduce hover lift on mobile for better touch interaction */
@@ -453,4 +501,40 @@ button[type="submit"]:hover {
   .card:hover {
     transform: translateY(-3px);
   }
+  
+  .container-max {
+    max-width: 100%;
+  }
+  
+  h1 {
+    font-size: clamp(1.75rem, 10vw, 3rem);
+  }
+  
+  h2 {
+    font-size: clamp(1.5rem, 8vw, 2rem);
+  }
+  
+  h3 {
+    font-size: clamp(1.125rem, 5vw, 1.25rem);
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-title {
+    font-size: clamp(1.75rem, 9vw, 2.5rem) !important;
+    line-height: 1.1;
+  }
+}
+
+/* Prevent horizontal scroll on all screen sizes */
+* {
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+.section-bg::before {
+  width: 100%;
 }

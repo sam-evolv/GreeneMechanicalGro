@@ -1,0 +1,69 @@
+Goal: Make the Greene Mechanical Group site production-grade on small screens and ship a Netlify-ready, Replit-compatible zip.
+
+Repository Context: Current project is a static site (HTML/CSS/JS). If a framework is detected, keep it, but the output must run as plain static in Replit and Netlify without extra build steps.
+
+Scope of Work
+
+Mobile responsiveness (≤ 360–428px)
+
+Eliminate horizontal scroll; enforce overflow-x:hidden only if a real culprit can’t be fixed.
+
+Implement fluid typography and spacing using clamp(); ensure headings and buttons don’t wrap awkwardly.
+
+Collapse desktop nav into an accessible hamburger: aria-expanded, hidden attribute toggling, ESC to close, focus trap.
+
+Convert any fixed-width grids to responsive CSS Grid (1–2 cols on mobile, scale up with breakpoints).
+
+Ensure images are responsive: max-width:100%, height:auto, sizes/srcset or <picture> where useful.
+
+Performance
+
+Lazy-load all non-hero images (loading="lazy", decoding="async").
+
+Convert heavy JPG/PNG to WebP where possible; keep fallback source.
+
+Inline critical CSS if above-the-fold > 14KB is reasonable; otherwise keep one minified CSS file.
+
+Remove unused CSS; reduce layout thrash (no JS measuring on scroll/resize unless debounced).
+
+Preconnect to fonts if any; prefer system UI stack or self-hosted.
+
+Accessibility & SEO
+
+Ensure a visible focus order, <label> for each input, headings in logical order.
+
+Add <meta name="description">, icons, site.webmanifest, robots.txt, and sitemap.xml.
+
+Netlify & Replit compatibility
+
+Provide netlify.toml with security + cache headers.
+
+Provide _redirects only if SPA routes exist; otherwise omit.
+
+Ensure the site runs in a vanilla Static HTML/CSS/JS Repl with no build command.
+
+Deliverables
+
+A folder gmg-site/ with:
+
+index.html, /css/main.css, /js/main.js, /assets/...
+
+site.webmanifest, robots.txt, sitemap.xml, netlify.toml, README.md
+
+Compress to greene-mechanical-group-static.zip.
+
+Acceptance Tests
+
+Viewport 360–1440px: no horizontal scroll; nav works with keyboard and screen reader.
+
+Lighthouse (mobile): CLS < 0.1, LCP < 2.5s with placeholder imagery.
+
+Netlify: no build command, publish directory .; form posts work via Netlify Forms.
+
+Replit: import zip, press Run (static server) → serves index.html without errors.
+
+Implement Now
+
+If an existing layout is present, refactor it to pass the tests above. If not, scaffold from scratch to meet the definition of done.
+
+Do not add a bundler. Keep it plain static.

@@ -18,6 +18,7 @@ class GMGWebsite {
     this.setupRevealAnimations()
     this.setupHeroAnimations()
     this.setupFormHandler()
+    this.setupMobileMenu()
   }
 
   private updateSchemaOrg(): void {
@@ -209,6 +210,71 @@ class GMGWebsite {
     setTimeout(() => {
       message.remove()
     }, 8000)
+  }
+
+  private setupMobileMenu(): void {
+    const menuButton = document.getElementById('mobile-menu-button')
+    const mobileMenu = document.getElementById('mobile-menu')
+    const hamburgerIcon = document.getElementById('hamburger-icon')
+    const closeIcon = document.getElementById('close-icon')
+    const menuLinks = document.querySelectorAll('.mobile-menu-link')
+
+    if (!menuButton || !mobileMenu || !hamburgerIcon || !closeIcon) return
+
+    const toggleMenu = () => {
+      const isExpanded = menuButton.getAttribute('aria-expanded') === 'true'
+      
+      menuButton.setAttribute('aria-expanded', (!isExpanded).toString())
+      
+      if (isExpanded) {
+        mobileMenu.setAttribute('hidden', '')
+        hamburgerIcon.classList.remove('hidden')
+        closeIcon.classList.add('hidden')
+        document.body.style.overflow = ''
+      } else {
+        mobileMenu.removeAttribute('hidden')
+        hamburgerIcon.classList.add('hidden')
+        closeIcon.classList.remove('hidden')
+        document.body.style.overflow = 'hidden'
+        
+        const firstLink = menuLinks[0] as HTMLElement
+        if (firstLink) firstLink.focus()
+      }
+    }
+
+    const closeMenu = () => {
+      menuButton.setAttribute('aria-expanded', 'false')
+      mobileMenu.setAttribute('hidden', '')
+      hamburgerIcon.classList.remove('hidden')
+      closeIcon.classList.add('hidden')
+      document.body.style.overflow = ''
+    }
+
+    menuButton.addEventListener('click', toggleMenu)
+
+    menuLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        closeMenu()
+      })
+    })
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && menuButton.getAttribute('aria-expanded') === 'true') {
+        closeMenu()
+        menuButton.focus()
+      }
+    })
+
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement
+      if (
+        menuButton.getAttribute('aria-expanded') === 'true' &&
+        !mobileMenu.contains(target) &&
+        !menuButton.contains(target)
+      ) {
+        closeMenu()
+      }
+    })
   }
 }
 
