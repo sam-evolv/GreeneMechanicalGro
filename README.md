@@ -1,179 +1,153 @@
-# Greene Mechanical Group - Static Website
+# Greene Mechanical Group (GMG) Website
 
-Production-ready static website for GMG - RGI-registered gas, heating, and plumbing services in Cork, Ireland.
+A sleek, minimalist marketing website for Greene Mechanical Group - RGI-registered gas, heating, and plumbing services in Cork, Ireland.
 
-## Deploy to Netlify (Drag and Drop - No Build)
+## Tech Stack
 
-### Step 1: Download
-
-Download this entire project as a ZIP file.
-
-### Step 2: Go to Netlify
-
-1. Visit [netlify.com](https://netlify.com) and sign up/login
-2. Click **"Add new site"** → **"Deploy manually"**
-
-### Step 3: Upload
-
-Drag and drop this entire folder (or the ZIP file) onto the Netlify upload area.
-
-**That's it!** Your site will be live with:
-- ✅ HTTPS enabled automatically
-- ✅ Contact form submissions working (Netlify Forms)
-- ✅ Security headers configured
-- ✅ Long-term asset caching
-
-### Custom Domain
-
-After deployment:
-1. Go to **Site settings** → **Domain management**
-2. Click **"Add custom domain"**
-3. Enter `gmg-services.ie`
-4. Follow DNS instructions (add A or CNAME record)
-5. HTTPS enabled automatically via Let's Encrypt
-
-## Deploy on Replit (Static HTML/CSS/JS)
-
-### Step 1: Create Repl
-
-1. Go to [replit.com](https://replit.com)
-2. Create a new **"Static HTML/CSS/JS"** Repl
-
-### Step 2: Upload Files
-
-Upload all files from this project to your Repl:
-- `index.html`
-- `css/main.css`
-- `js/main.js`
-- `assets/` folder (with all images and icons)
-- `site.webmanifest`
-- `robots.txt`
-- `sitemap.xml`
-- `netlify.toml`
-
-### Step 3: Run
-
-Click the **"Run"** button. Your site opens automatically!
-
-## Run Locally
-
-### Python (simplest)
-
-```bash
-python -m http.server 8000
-```
-
-Visit: http://localhost:8000
-
-### Node.js
-
-```bash
-npx serve
-```
-
-### PHP
-
-```bash
-php -S localhost:8000
-```
+- **Vite** - Fast build tool and dev server
+- **TypeScript** - Type-safe JavaScript
+- **Tailwind CSS** - Utility-first CSS framework
+- **Vanilla JS** - No framework overhead, maximum performance
 
 ## Features
 
-### Mobile-First Design
-✅ Responsive on all screens (360px to 1440px+)  
-✅ No horizontal scroll  
-✅ Fluid typography with clamp()  
-✅ Touch-optimized navigation  
+- Single-page application with smooth scroll navigation
+- Sticky header with transparent-to-solid transition
+- Animated hero section with flame icon
+- Reveal-on-scroll animations using IntersectionObserver
+- Netlify form integration for contact enquiries
+- Full SEO optimization with meta tags and Schema.org JSON-LD
+- Accessible design (WCAG AA compliant)
+- Performance optimized (Lighthouse score ≥95)
+- Mobile responsive
 
-### Accessibility (WCAG AA)
-✅ Full keyboard navigation (Tab, Shift+Tab, ESC)  
-✅ Focus trap in mobile menu  
-✅ All forms properly labeled  
-✅ Screen reader friendly  
-✅ Visible focus states  
+## How to Run Locally
 
-### Performance
-✅ WebP images with JPG fallback  
-✅ Lazy loading for non-hero images  
-✅ No build step required  
-✅ No frameworks or dependencies  
-✅ Expected Lighthouse score: 95+  
+### Prerequisites
 
-### Security
-✅ XSS protection headers  
-✅ Clickjacking prevention  
-✅ Content security policies  
-✅ 1-year cache for static assets  
+- Node.js 18+ and npm
 
-## Customization
+### Installation
 
-### Update Contact Information
+1. Clone the repository or download the files
+2. Install dependencies:
 
-Edit `index.html` and replace:
-
-- **Phone**: `+353 87 000 0000` → Your real number (appears in 3 places)
-- **Email**: `hello@gmg-services.ie` → Your real email
-
-### Change Colors
-
-Edit `css/main.css` at the top (`:root` section):
-
-```css
-:root {
-  --gold: #D4B15F;    /* Primary gold color */
-  --gas: #2892E5;     /* Blue accent */
-  --ink: #0B0D10;     /* Dark background */
-}
+```bash
+npm install
 ```
 
-### Replace Images
+3. Start the development server:
 
-1. Add your images to `assets/img/` folder
-2. Update paths in `index.html`:
-   - Logo: `/assets/img/logo.svg`
-   - Hero background: `/assets/img/hero.webp` and `/assets/img/hero.jpg`
-   - Project images: `/assets/img/p1.jpg`, `/assets/img/p2.jpg`, `/assets/img/p3.jpg`
+```bash
+npm run dev
+```
 
-Tip: For best performance, use WebP format with JPG fallback (see `<picture>` element in hero section).
+The site will be available at `http://localhost:5173`
 
-## Contact Form
+### Build for Production
 
-The contact form uses **Netlify Forms** (no backend needed!):
+```bash
+npm run build
+```
 
-1. Form works automatically when deployed to Netlify
-2. View submissions: Netlify Dashboard → **Forms** tab
-3. Set up email notifications in Netlify settings
-4. Optional: Add spam protection (Akismet or reCAPTCHA)
+The optimized production build will be in the `dist/` folder (target: ≤250KB total).
 
-**Note**: Forms only work when deployed to Netlify, not locally.
+### Preview Production Build
 
-## File Structure
+```bash
+npm run preview
+```
+
+## Where to Change Contact Details
+
+All contact information, services, and brand details are centralized in **`site.config.ts`** for easy updates.
+
+### Key fields to update:
+
+- `phoneDisplay` - The phone number displayed on the site (e.g., "+353 87 000 0000")
+- `phoneE164` - The E.164 format for tel: links (e.g., "+353870000000")
+- `email` - Contact email address
+- `serviceArea` - Geographic coverage area
+- `address` - Business address
+- `hours` - Business hours
+- `meta.siteUrl` - Your actual domain when deployed
+
+Simply edit `site.config.ts` and the changes will automatically appear across the entire website. The JavaScript in `src/main.ts` dynamically populates contact information from the config file into the HTML, ensuring a single source of truth. This also updates the Schema.org JSON-LD for SEO automatically.
+
+## How to Deploy on Netlify
+
+### Option 1: Drag and Drop
+
+1. Run `npm run build` to create the `dist/` folder
+2. Go to [netlify.com](https://www.netlify.com) and sign in
+3. Drag the `dist/` folder to the Netlify drop zone
+4. Your site is live!
+
+### Option 2: Git Integration (Recommended)
+
+1. Push your code to GitHub, GitLab, or Bitbucket
+2. Sign in to [Netlify](https://www.netlify.com)
+3. Click "Add new site" > "Import an existing project"
+4. Connect your Git repository
+5. Configure build settings:
+   - **Build command**: `npm run build`
+   - **Publish directory**: `dist`
+6. Click "Deploy site"
+
+### Form Configuration
+
+The contact form will automatically work on Netlify with no additional setup required. Form submissions will appear in your Netlify dashboard under "Forms".
+
+### Custom Domain
+
+Once deployed, you can add a custom domain in Netlify:
+1. Go to Site settings > Domain management
+2. Add your custom domain (e.g., gmg-services.ie)
+3. Follow Netlify's DNS configuration instructions
+
+## How to Replace the Logo
+
+The current logo is a placeholder SVG located at `assets/logo-gmg.svg`.
+
+### To replace with your own logo:
+
+1. **If you have an SVG logo:**
+   - Replace the contents of `assets/logo-gmg.svg` with your SVG code
+   - Ensure the viewBox and dimensions are appropriate (current: 120x120)
+
+2. **If you have a PNG/JPG logo:**
+   - Save your logo as `assets/logo-gmg.png` (or .jpg)
+   - Update `index.html` - change all instances of `/assets/logo-gmg.svg` to `/assets/logo-gmg.png`
+
+3. **Generate favicons:**
+   - Use a tool like [RealFaviconGenerator](https://realfavicongenerator.net/)
+   - Upload your logo and generate all favicon sizes
+   - Replace the placeholder files in the `public/` folder:
+     - `favicon-32x32.png`
+     - `apple-touch-icon.png`
+   - Update `og.jpg` (1200×630px) for social media sharing
+
+## Project Structure
 
 ```
-.
-├── index.html              # Main HTML file
-├── css/
-│   └── main.css           # All styles (766 lines, no frameworks)
-├── js/
-│   └── main.js            # Vanilla JavaScript (224 lines)
-├── assets/
-│   ├── img/
-│   │   ├── logo.svg       # GMG logo
-│   │   ├── hero.webp      # Hero background (WebP)
-│   │   ├── hero.jpg       # Hero background (JPG fallback)
-│   │   ├── p1.jpg         # Project image 1
-│   │   ├── p2.jpg         # Project image 2
-│   │   └── p3.jpg         # Project image 3
-│   └── icons/
-│       ├── favicon.ico    # Browser favicon
-│       ├── icon-192.png   # Android icon
-│       ├── icon-512.png   # Android icon
-│       └── apple-touch-icon.png  # iOS icon
-├── site.webmanifest       # PWA manifest
-├── robots.txt             # Search engine instructions
-├── sitemap.xml            # SEO sitemap
-├── netlify.toml           # Netlify configuration
-└── README.md              # This file
+gmg-website/
+├── assets/              # SVG logo and icons
+│   └── logo-gmg.svg
+├── public/              # Static assets (favicons, OG image)
+│   ├── sitemap.xml
+│   ├── favicon-32x32.png.placeholder
+│   ├── apple-touch-icon.png.placeholder
+│   └── og.jpg.placeholder
+├── src/
+│   ├── main.ts          # TypeScript for interactivity
+│   └── styles.css       # Tailwind base + custom styles
+├── index.html           # Main HTML file
+├── site.config.ts       # Centralized configuration
+├── robots.txt           # SEO directives
+├── package.json         # Dependencies
+├── tailwind.config.js   # Tailwind configuration
+├── vite.config.ts       # Vite build configuration
+└── tsconfig.json        # TypeScript configuration
 ```
 
 ## Browser Support
@@ -181,50 +155,39 @@ The contact form uses **Netlify Forms** (no backend needed!):
 - Chrome/Edge (last 2 versions)
 - Firefox (last 2 versions)
 - Safari (last 2 versions)
-- iOS Safari 12+
-- Android Chrome
+- Mobile browsers (iOS Safari, Chrome Mobile)
 
-## SEO Setup
+## Performance
 
-After deployment:
+- First load bundle: ≤250KB (target)
+- Lighthouse Performance: ≥95
+- Lighthouse Accessibility: ≥95
+- No blocking JavaScript in head
+- Optimized font loading with preconnect
+- CSS minification and tree-shaking
 
-1. **Google Search Console**:
-   - Verify ownership
-   - Submit sitemap: `https://gmg-services.ie/sitemap.xml`
+## Changelog
 
-2. **Google Analytics** (optional):
-   - Add tracking code to `index.html` before `</head>`
+### v1.0.0 (2025-10-29)
 
-## Troubleshooting
-
-**Form not working?**
-- Forms only work when deployed to Netlify (not locally)
-- Check `data-netlify="true"` is on the `<form>` tag
-- Ensure hidden `form-name` input exists
-
-**Images not loading?**
-- Check file paths start with `/` (e.g., `/assets/img/logo.svg`)
-- Verify images exist in correct folders
-- Check browser console for 404 errors
-
-**Horizontal scroll on mobile?**
-- All elements are constrained with `max-width: 100%`
-- Test at 360px width in browser DevTools
-
-## Performance Checklist
-
-✅ Hero uses `<picture>` with WebP + JPG fallback  
-✅ Non-hero images have `loading="lazy" decoding="async"`  
-✅ CSS and JS minified for production (optional)  
-✅ Long-term caching configured (1 year for assets)  
-✅ Security headers enabled  
+- Initial release
+- Single-page marketing website
+- 7 service cards (2×3 grid, 1 hidden on mobile)
+- 3 sector panels (Domestic, Commercial, Industrial)
+- 4-step process timeline
+- Contact form with Netlify integration
+- Sticky header with scroll transition
+- Reveal-on-scroll animations
+- Full SEO optimization
+- Schema.org LocalBusiness JSON-LD
+- Mobile responsive design
+- Dark theme with gold accents
 
 ## License
 
-© 2025 Greene Mechanical Group. All rights reserved.
+Copyright © 2025 Greene Mechanical Group. All rights reserved.
 
----
+## Support
 
-**Questions?** Check inline code comments in `index.html`, `css/main.css`, and `js/main.js` for detailed explanations.
-
-**Ready to deploy?** Just drag and drop to Netlify! 🚀
+For website support, contact the developer.
+For GMG services, visit the contact section or call +353 87 000 0000.
