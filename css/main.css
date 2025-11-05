@@ -335,7 +335,7 @@ button {
   justify-content: center;
   text-align: center;
   padding-top: 120px;
-  background: url('/assets/img/hero.jpg') center/cover no-repeat;
+  background: url('../assets/img/hero.jpg') center/cover no-repeat;
 }
 
 .hero-overlay {
