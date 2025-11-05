@@ -1,0 +1,70 @@
+Produce a pure static site for Greene Mechanical Group (mobile-first, accessibility-compliant), ready for Netlify drag-and-drop (no build step) and Replit “Static HTML/CSS/JS.” Output a single artifact: greene-mechanical-group-netlify-static.zip.
+
+Pre-flight (stop build auto-detection)
+
+If any of these files exist at repo root, delete them to avoid Replit/Netlify build detection:
+
+package.json, pnpm-lock.yaml, yarn.lock, package-lock.json, vite.config.*, next.config.*, astro.config.*, svelte.config.*, webpack.config.*, .parcelrc, .nvmrc
+
+/src frameworks scaffolds; /functions or /netlify/functions (unless intentionally used)
+
+Ensure index.html is at project root and there is no build or dist step.
+
+Deliverables (create these exactly):
+
+index.html
+css/main.css
+js/main.js
+assets/img/logo.svg
+assets/img/hero.webp
+assets/img/hero.jpg
+assets/img/p1.jpg
+assets/img/p2.jpg
+assets/img/p3.jpg
+assets/icons/favicon.ico
+assets/icons/icon-192.png
+assets/icons/icon-512.png
+assets/icons/apple-touch-icon.png
+site.webmanifest
+robots.txt
+sitemap.xml
+netlify.toml
+README.md
+
+
+Implementation requirements
+
+Mobile: no horizontal scroll at 360px; grids collapse to 1 column on narrow screens.
+
+Perf: hero uses <picture> with WebP + JPG fallback; non-hero images loading="lazy" and decoding="async".
+
+A11y: keyboard-navigable hamburger (aria-expanded, [hidden]), visible focus, <label>s for inputs.
+
+Contact form wired for Netlify Forms (data-netlify="true", hidden form-name).
+
+netlify.toml:
+
+[build] command = "" and publish = "."
+
+Security headers (X-Content-Type-Options, X-Frame-Options=SAMEORIGIN, Referrer-Policy, Permissions-Policy)
+
+Cache: [[headers]] for = "/assets/*" → Cache-Control: public, max-age=31536000, immutable
+
+README.md: step-by-step deploy instructions for Netlify (no build) and Replit Static.
+
+Packaging
+
+Zip exactly the files above into greene-mechanical-group-netlify-static.zip at repo root (no nested folder levels).
+
+Post-flight validation (agent must verify)
+
+Open index.html preview at 360, 768, 1024, 1440 — confirm nav toggles and no x-scroll.
+
+Confirm there is no package.json or lockfiles at root.
+
+Print the absolute path to the ZIP.
+
+Final message to return
+
+ZIP created and ready for Netlify drag-and-drop (no build):
+<absolute-path>/greene-mechanical-group-netlify-static.zip
