@@ -1,0 +1,114 @@
+Goal
+Revert this repo to the exact previous Vite/Tailwind version (the polished one with centered “Call Now / Request a Quote”, large GMG logo with effects, and the original top toolbar), run it locally, and produce a Netlify build artifact.
+
+Do exactly this, step by step
+
+Stop everything & snapshot
+
+Kill any running processes/servers.
+
+Create a temporary branch restore-polished-<timestamp> from current HEAD.
+
+Stash any uncommitted changes.
+
+Recover the original Vite project
+
+If /_archive/vite/ exists (created earlier), restore from it:
+
+Move the contents of /_archive/vite/ back to repo root preserving the same paths (package.json, src/, public/, vite.config.*, tailwind.config.*, postcss.config.*, lockfile, etc.).
+
+Else, use Git to find the last commit with a Vite layout:
+
+git log --name-only -n 50 and locate a commit where package.json and vite.config.* were present.
+
+Create a branch polished-restore at that commit (git checkout -b polished-restore <commit>).
+
+Remove static-rescue clutter from root
+
+Delete these if present at repo root (they were from the static attempt):
+
+index.html, css/, js/, assets/, site.webmanifest, sitemap.xml, robots.txt, README.md that belong to the static build, netlify.toml from static build.
+
+Keep only the files required by the original Vite project: package.json, lockfile, src/, public/, vite.config.*, tailwind.config.*, postcss.config.*, tsconfig*, etc.
+
+Ensure the Replit run command starts Vite
+
+If .replit exists, set:
+run = "npm run dev -- --host 0.0.0.0 --port 5000"
+
+If replit.nix is present, make sure Node is available; otherwise skip.
+
+Install & run dev
+
+If there’s a lockfile: npm ci (preferred). Otherwise, npm i.
+
+npm run dev and confirm the preview renders the original polished hero:
+
+GMG logo centered with original effect/size.
+
+“Call Now” and “Request a Quote” centered in the hero as before.
+
+Original top toolbar styling and behavior.
+
+Do not make stylistic changes. This is a strict revert.
+
+Production build
+
+npm run build (Vite should emit to dist/).
+
+Verify dist/index.html loads locally via a simple static server (npx serve dist -l 4173) just to sanity-check assets and paths.
+
+Netlify packaging
+
+Create netlify.toml at repo root for a proper framework build (not static hack):
+
+[build]
+  command = "npm ci && npm run build"
+  publish = "dist"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+
+Zip the contents of dist/ (not the folder itself) to gmg-vite-netlify-dist.zip at repo root.
+
+Output
+
+Print:
+
+“Dev server running” preview URL.
+
+Absolute path to gmg-vite-netlify-dist.zip.
+
+Confirm the current branch name (polished-restore or restore-polished-<timestamp>).
+
+Success criteria
+
+The preview looks identical to the pre-break state (logo effect/size, centered CTAs, original toolbar polish).
+
+No console errors.
+
+gmg-vite-netlify-dist.zip deploys on Netlify with:
+
+Build command: npm ci && npm run build
+
+Publish directory: dist
+
+(You can also drag-and-drop the ZIP into Netlify and choose “unzip and deploy” if offered; otherwise connect the repo and let Netlify build.)
+
+If Git history is missing or incomplete
+
+As a fallback, copy from /_archive/vite/ (if present).
+
+If neither exists, look for Replit “Revisions/Checkpoints” and restore the latest checkpoint before the static changes, then repeat steps 3–8.
+
+Final message to return
+
+Revert complete. Polished Vite site is live in Preview.
+Netlify artifact ready: <absolute-path>/gmg-vite-netlify-dist.zip
+Branch: <branch-name>
