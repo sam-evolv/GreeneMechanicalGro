@@ -1,0 +1,193 @@
+Create a production-grade, mobile-first static website for Greene Mechanical Group (GMG), optimised for Netlify (no build step) and easily runnable on Replit. Package everything into a single ZIP file artifact.
+
+Guardrails
+
+Keep it plain static (HTML/CSS/JS). No frameworks, no bundlers.
+
+Must run in Replit “Static HTML/CSS/JS” and deploy to Netlify with build command = none and publish dir = “.”
+
+Accessibility-first, CLS-safe, small-screen optimised (360–428px), no horizontal scroll.
+
+Deliverables
+Create a new folder gmg-site/ with these files (fill with content below; replace placeholders where noted):
+
+gmg-site/
+  index.html
+  css/main.css
+  js/main.js
+  assets/img/logo.svg
+  assets/img/hero.jpg
+  assets/img/hero.webp   (fallback hero.jpg retained)
+  assets/img/p1.jpg
+  assets/img/p2.jpg
+  assets/img/p3.jpg
+  assets/icons/favicon.ico
+  assets/icons/icon-192.png
+  assets/icons/icon-512.png
+  assets/icons/apple-touch-icon.png
+  site.webmanifest
+  robots.txt
+  sitemap.xml
+  netlify.toml
+  README.md
+
+
+Content to generate
+
+index.html
+
+Semantic, mobile-first structure: header with brand + accessible hamburger nav (aria-expanded, [hidden]), hero with copy + CTA, services (cards grid), projects (gallery), contact section with Netlify Forms (data-netlify="true", hidden form-name), footer.
+
+Example title/description (customise as needed):
+
+<title>Greene Mechanical Group</title>
+
+<meta name="description" content="Mechanical, plumbing & heating specialists delivering efficient, reliable systems for residential and commercial clients.">
+
+Use <picture> with WebP + JPG fallback for the hero.
+
+Add loading="lazy" and decoding="async" to non-hero images.
+
+css/main.css
+
+Use fluid type/spacing via clamp().
+
+Responsive grids for cards/gallery.
+
+Collapsible nav styles; visible focus states; no layout shift.
+
+Keep CSS lean; no external frameworks.
+
+Example tokens:
+
+--container: clamp(320px, 94vw, 1200px);
+
+Brand color #0d6efd (adjustable).
+
+js/main.js
+
+Toggle the mobile nav with proper aria-expanded and [hidden] handling.
+
+Add smooth scrolling for same-page anchors.
+
+No heavy JS; no layout thrash.
+
+assets/*
+
+Generate a clean SVG logo placeholder with a simple GMG monogram and gradient (SVG path + gradient).
+
+Produce lightweight placeholder images for hero and 3 projects (JPG + WebP for hero).
+
+Produce favicon and app icons at the sizes listed.
+
+site.webmanifest
+
+Name: “Greene Mechanical Group” / short_name: “GMG”, theme_color #0d6efd, icons list consistent with assets.
+
+robots.txt and sitemap.xml
+
+Allow all; include sitemap entry with today’s ISO date for <lastmod>.
+
+netlify.toml
+
+No build command; publish .
+
+Security headers (X-Content-Type-Options, X-Frame-Options=SAMEORIGIN, Referrer-Policy, Permissions-Policy)
+
+Long-cache immutable for /assets/*
+
+README.md
+
+One-pager runbook: Netlify deploy (upload zip, no build), Replit usage, where to customise content/assets.
+
+Mobile & Perf Requirements (acceptance criteria)
+
+Viewport 360–1440px: no horizontal scroll; grids reflow 1→2→3+ cols; buttons don’t clip.
+
+CLS < 0.1 (use stable image dimensions; avoid JS that reflows layout).
+
+LCP target < 2.5s with the lightweight hero (WebP preferred).
+
+Keyboard navigation works; visible focus; form inputs have <label>s.
+
+No console errors; the page runs offline as a static asset set.
+
+Build steps (Agent actions)
+
+Create directory tree exactly as specified.
+
+Write files with the following minimum content (you may refine copy but preserve structure and attributes):
+
+index.html — semantic layout with:
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+Header with brand (logo.svg), hamburger button id="navToggle", nav id="site-nav" with [hidden] default.
+
+Hero with <picture>: source type="image/webp" → img fallback with width/height set.
+
+Services section with 4 cards.
+
+Projects section with 3 figures (lazy images).
+
+Contact form with method="POST", data-netlify="true", hidden form-name="contact", labeled inputs.
+
+Footer with © current year.
+
+One stylesheet link /css/main.css and one script /js/main.js (defer).
+
+css/main.css — include:
+
+Root tokens, fluid clamp() for font sizes & spacing, responsive grid breakpoints, card styling, accessible focus, nav dropdown for ≤ 800px, and max-width container utility.
+
+Ensure .hero becomes single column ≤ 640px; .cards/.gallery switch to 1 col on mobile.
+
+Do not hide overflow globally unless you find a specific culprit—fix the culprit.
+
+js/main.js — implement:
+
+Toggle [hidden] on #site-nav and sync aria-expanded.
+
+Smooth scroll for a[href^="#"].
+
+No third-party dependencies.
+
+Generate placeholder images/icons (small sizes, compressed). Provide both hero.webp and hero.jpg.
+
+site.webmanifest, robots.txt, sitemap.xml, netlify.toml, README.md — as specified above.
+
+Validate
+
+Open index.html in a preview; inspect at widths 360px, 768px, 1024px, 1440px.
+
+Confirm: no horizontal scrollbar, nav toggles correctly, images are responsive, contact form markup is valid.
+
+Package
+
+Create a ZIP at the project root named:
+greene-mechanical-group-netlify-static.zip
+containing the entire gmg-site/ folder contents (files at zip root, not nested twice).
+
+Output
+
+Provide the absolute path of the generated ZIP in the Replit workspace so it’s downloadable from the UI.
+
+Do not start any servers or add build tools. The artifact must be ready to upload to Netlify as-is.
+
+If existing GMG assets are present in the project
+
+Replace placeholder logo and images with real assets if found under any assets/ or public/ directory, mapping file names accordingly.
+
+Keep structure and performance constraints unchanged.
+
+Non-negotiables
+
+No frameworks, no bundlers, no CDN dependencies.
+
+Keep the artifact lean; ensure cache headers for /assets/* are immutable in netlify.toml.
+
+Ship exactly one ZIP artifact with a clean file tree.
+
+Final confirmation message to return
+
+“ZIP created: <absolute-path>/greene-mechanical-group-netlify-static.zip”
