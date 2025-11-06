@@ -3,6 +3,14 @@
   command = "npm ci && npm run build"
   publish = "dist"
 
+# Redirect non-www to www (301 permanent redirect)
+[[redirects]]
+  from = "https://greenemechanicalgroup.ie/*"
+  to = "https://www.greenemechanicalgroup.ie/:splat"
+  status = 301
+  force = true
+
+# Security & Performance Headers
 [[headers]]
   for = "/*"
   [headers.values]
@@ -10,6 +18,7 @@
     X-Frame-Options = "SAMEORIGIN"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
     Cache-Control = "public, max-age=0, must-revalidate"
 
 [[headers]]
