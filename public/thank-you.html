@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thank You | Greene Mechanical Group</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0B0D10;
+      --ink-deep: #111317;
+      --gold: #D4B15F;
+      --gas: #2892E5;
+      --text: #EAECEF;
+      --text-muted: #A9B0BA;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(180deg, var(--ink) 0%, var(--ink-deep) 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+    }
+    .logo { height: 100px; margin-bottom: 2rem; }
+    h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 600;
+      background: linear-gradient(135deg, var(--gold) 0%, #F0D488 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+    }
+    p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      max-width: 500px;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+    .icon {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 1.5rem;
+      color: var(--gas);
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 2rem;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gas) 100%);
+      color: #0B0D10;
+      font-weight: 600;
+      border-radius: 9999px;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(212, 177, 95, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <img src="/assets/logo-gmg-transparent.png" alt="GMG Logo" class="logo">
+  <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+  </svg>
+  <h1>Message Sent!</h1>
+  <p>Thank you for contacting Greene Mechanical Group. We'll get back to you within 24 hours.</p>
+  <a href="/" class="btn">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+    Back to Home
+  </a>
+</body>
+</html>

@@ -358,14 +358,12 @@
         </div>
 
         <div class="reveal glass rounded-xl p-8">
-          <form id="quote-form" name="quote" method="POST" data-netlify="true" netlify-honeypot="trap" class="space-y-4">
-            <input type="hidden" name="form-name" value="quote">
+          <form id="contact-form" name="gmg-contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" action="/thank-you.html" class="space-y-4">
+            <input type="hidden" name="form-name" value="gmg-contact">
             
-            <div class="hidden">
-              <label>
-                Don't fill this out if you're human: <input name="trap">
-              </label>
-            </div>
+            <p class="hidden">
+              <label>Don't fill this out if you're human: <input name="bot-field"></label>
+            </p>
 
             <div>
               <label for="name">Name *</label>
@@ -383,17 +381,23 @@
             </div>
 
             <div>
-              <label for="service">Service Required *</label>
-              <select id="service" name="service" required>
-                <option value="">Select a service</option>
-                <option value="boiler">Boiler installation & replacement</option>
-                <option value="servicing">Annual servicing & safety certs</option>
-                <option value="heating">Heating system upgrades</option>
-                <option value="plumbing">Plumbing repairs</option>
-                <option value="bathroom">Bathrooms & fit-outs</option>
-                <option value="cylinders">Hot-water cylinders</option>
-                <option value="other">Other</option>
-              </select>
+              <label id="service-label">Service Required *</label>
+              <input type="hidden" id="service-input" name="service" value="" required>
+              <div class="custom-dropdown" id="service-dropdown">
+                <button type="button" class="dropdown-trigger" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="service-label">
+                  <span class="dropdown-text">Select a service</span>
+                  <svg class="dropdown-chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+                <ul class="dropdown-menu" role="listbox" aria-labelledby="service-label">
+                  <li role="option" data-value="boiler">Boiler installation & replacement</li>
+                  <li role="option" data-value="servicing">Annual servicing & safety certs</li>
+                  <li role="option" data-value="heating">Heating system upgrades</li>
+                  <li role="option" data-value="plumbing">Plumbing repairs</li>
+                  <li role="option" data-value="bathroom">Bathrooms & fit-outs</li>
+                  <li role="option" data-value="cylinders">Hot-water cylinders</li>
+                  <li role="option" data-value="other">Other</li>
+                </ul>
+              </div>
             </div>
 
             <div>
@@ -401,7 +405,7 @@
               <textarea id="message" name="message" rows="4" required placeholder="Tell us about your project..."></textarea>
             </div>
 
-            <button type="submit">
+            <button type="submit" class="submit-btn">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"></path><path d="M22 2 11 13"></path></svg>
               Send Message
             </button>

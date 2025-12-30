@@ -1,0 +1,174 @@
+Replit Agent Execution Prompt - GMG Contact Form Wiring + Service Dropdown Fix
+
+Objective
+Wire the “Get in Touch” form so it reliably delivers submissions to [dgmechanicalgroup@gmail.com](mailto:dgmechanicalgroup@gmail.com) via Netlify Forms, and replace the native “Select a service” dropdown with a theme-consistent, high-clarity custom dropdown that matches the site (dark + gold).
+
+Non-negotiables
+
+* Do not redesign the site.
+* Keep the existing layout and spacing as-is.
+* Improve clarity, contrast, and interaction quality.
+* Make form submission production-reliable on Netlify.
+* Ensure the selected service value is actually included in the form submission payload.
+
+Part A - Proper Netlify Forms wiring (so Send Message goes to email)
+
+1. Locate the contact form
+
+* Search the codebase for “Send Message”, “Get in Touch”, or the contact form component.
+* Identify the <form> element and its inputs.
+
+2. Convert the form to Netlify Forms-compatible markup
+   Apply these exact requirements:
+
+* The form must include:
+
+  * method="POST"
+  * data-netlify="true"
+  * name="gmg-contact"
+  * data-netlify-honeypot="bot-field"
+* Add hidden input for Netlify form name:
+
+  * <input type="hidden" name="form-name" value="gmg-contact" />
+* Add honeypot field (hidden from users):
+
+  * <p className="hidden">
+      <label>
+        Don’t fill this out if you’re human: <input name="bot-field" />
+      </label>
+    </p>
+* Ensure all user fields have proper name attributes (critical for Netlify):
+
+  * name="name"
+  * name="phone"
+  * name="email"
+  * name="service"
+  * name="message"
+
+3. Add a reliable submit handler UX (but keep Netlify POST)
+
+* Do NOT prevent default submission unless you re-post the form yourself.
+* Preferred approach:
+
+  * Let the form submit normally (Netlify handles it).
+  * Add a success “thank you” view using Netlify redirect:
+
+    * Option 1: action="/thank-you"
+    * Create a simple /thank-you route/page, or if this is a static single-page site, add a small thank-you state page section that can render at /thank-you.
+* If the app is SPA without routing, use encode + fetch approach instead (acceptable fallback):
+
+  * Prevent default
+  * POST as application/x-www-form-urlencoded to "/"
+  * Show inline success message
+  * This must preserve Netlify form detection:
+
+    * The real <form> still needs data-netlify="true" and hidden form-name input.
+
+4. Verify Netlify detection
+
+* Ensure there is no conditional rendering that removes the form from the built HTML.
+* If needed, add a hidden static form stub somewhere in the page (Netlify detection trick):
+
+  * <form name="gmg-contact" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="text" name="phone" />
+      <input type="email" name="email" />
+      <input type="text" name="service" />
+      <textarea name="message"></textarea>
+    </form>
+
+Only do this if the main form is dynamically injected and Netlify doesn’t detect it.
+
+Expected result
+
+* When deployed to Netlify, submissions appear in Netlify Forms.
+* Email notifications (already configured) send to [dgmechanicalgroup@gmail.com](mailto:dgmechanicalgroup@gmail.com).
+
+Part B - Replace “Select a service” <select> with a themed, clear dropdown
+Problem
+The current dropdown uses native browser rendering and the options list has poor readability and inconsistent theme.
+
+Requirement
+Replace the native <select> with a custom, accessible dropdown component that matches the site theme.
+
+Implementation Approach (recommended)
+
+* Use @headlessui/react Listbox (accessible, keyboard nav, themeable).
+* Install if not present:
+
+  * npm i @headlessui/react
+    (Only install if missing; check package.json first.)
+
+Dropdown UI specification (must match dark + gold)
+Trigger button
+
+* Background: same as input fields (dark slate/charcoal used in the form)
+* Border: 1px solid gold accent
+* Text: light grey/white
+* Placeholder: “Select a service” visible and not low-contrast
+* Right-side icon: small chevron (can be inline SVG)
+
+Menu panel
+
+* Background: dark charcoal (slightly lighter than page background)
+* Border: 1px solid gold
+* Shadow: subtle (soft, not bright)
+* Rounded corners consistent with other inputs
+* Max height with scroll (no massive overlay)
+
+Option rows
+
+* Default: light text, clear spacing
+* Hover/active: gold background with black text (high clarity)
+* Selected state: show checkmark + bold text or gold accent
+* Transition: subtle fade/slide (200ms)
+
+Data binding (critical)
+
+* The selected service must be included in the form submission as name="service"
+* Implement this by adding a hidden input:
+
+  * <input type="hidden" name="service" value={selectedService} />
+* Keep the service list the same options as before (do not rewrite the business offering)
+
+Integration steps
+
+1. Identify current services list used in the select.
+2. Replace select with Listbox using that same array of services.
+3. Bind selected option to state (selectedService).
+4. Add hidden input so Netlify receives it.
+5. Ensure keyboard works:
+
+   * Tab focus to trigger
+   * Enter opens
+   * Arrow keys navigate
+   * Enter selects
+   * Esc closes
+
+Part C - Testing steps you must run
+
+1. Local sanity check
+
+* Run dev server.
+* Fill all fields.
+* Choose a service.
+* Confirm the hidden “service” input value updates when selection changes.
+
+2. Netlify test (post-deploy)
+
+* Deploy.
+* Submit the form.
+* Confirm:
+
+  * Netlify dashboard shows the submission under Forms.
+  * Email arrives at [dgmechanicalgroup@gmail.com](mailto:dgmechanicalgroup@gmail.com).
+  * Service field is present in the submission payload.
+
+Deliverables
+
+* Updated contact form wired for Netlify Forms (gmg-contact).
+* Replaced service dropdown with themed custom dropdown.
+* Clear visual readability and consistent dark + gold styling.
+* No layout regressions on mobile.
+
+Do the work now, implement directly in the codebase, and verify the form submission payload includes the selected service.

@@ -17,6 +17,7 @@ class GMGWebsite {
     this.setupSmoothScroll()
     this.setupRevealAnimations()
     this.setupHeroAnimations()
+    this.setupCustomDropdown()
     this.setupFormHandler()
     this.setupMobileMenu()
   }
@@ -158,58 +159,141 @@ class GMGWebsite {
     })
   }
 
-  private setupFormHandler(): void {
-    const form = document.querySelector('#quote-form') as HTMLFormElement
-    if (!form) return
+  private setupCustomDropdown(): void {
+    const dropdown = document.getElementById('service-dropdown')
+    if (!dropdown) return
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault()
+    const trigger = dropdown.querySelector('.dropdown-trigger') as HTMLButtonElement
+    const menu = dropdown.querySelector('.dropdown-menu') as HTMLUListElement
+    const options = dropdown.querySelectorAll('[role="option"]')
+    const hiddenInput = document.getElementById('service-input') as HTMLInputElement
+    const textEl = dropdown.querySelector('.dropdown-text') as HTMLSpanElement
 
-      const formData = new FormData(form)
-      const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement
-      const originalText = submitBtn.textContent
+    if (!trigger || !menu || !hiddenInput || !textEl) return
 
-      try {
-        submitBtn.disabled = true
-        submitBtn.textContent = 'Sending...'
+    let isOpen = false
+    let focusedIndex = -1
 
-        const response = await fetch('/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams(formData as any).toString()
-        })
+    const openMenu = () => {
+      isOpen = true
+      trigger.setAttribute('aria-expanded', 'true')
+      menu.classList.add('open')
+      focusedIndex = -1
+    }
 
-        if (response.ok) {
-          this.showSuccessMessage(form)
-          form.reset()
+    const closeMenu = () => {
+      isOpen = false
+      trigger.setAttribute('aria-expanded', 'false')
+      menu.classList.remove('open')
+      focusedIndex = -1
+    }
+
+    const selectOption = (option: Element) => {
+      const value = option.getAttribute('data-value') || ''
+      const text = option.textContent || ''
+      
+      hiddenInput.value = value
+      textEl.textContent = text
+      textEl.classList.add('selected')
+      
+      options.forEach(opt => opt.setAttribute('aria-selected', 'false'))
+      option.setAttribute('aria-selected', 'true')
+      
+      closeMenu()
+      trigger.focus()
+    }
+
+    const focusOption = (index: number) => {
+      if (index < 0) index = options.length - 1
+      if (index >= options.length) index = 0
+      focusedIndex = index
+      
+      options.forEach((opt, i) => {
+        if (i === index) {
+          (opt as HTMLElement).classList.add('focused')
+          opt.scrollIntoView({ block: 'nearest' })
         } else {
-          throw new Error('Form submission failed')
+          (opt as HTMLElement).classList.remove('focused')
         }
-      } catch (error) {
-        alert('Sorry, there was an error submitting the form. Please call us directly.')
-      } finally {
-        submitBtn.disabled = false
-        submitBtn.textContent = originalText || 'Send Message'
+      })
+    }
+
+    trigger.addEventListener('click', () => {
+      if (isOpen) {
+        closeMenu()
+      } else {
+        openMenu()
+      }
+    })
+
+    trigger.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault()
+        if (!isOpen) openMenu()
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault()
+        if (!isOpen) openMenu()
+        focusOption(0)
+      } else if (e.key === 'Escape' && isOpen) {
+        closeMenu()
+      }
+    })
+
+    menu.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault()
+        focusOption(focusedIndex + 1)
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault()
+        focusOption(focusedIndex - 1)
+      } else if (e.key === 'Enter' && focusedIndex >= 0) {
+        e.preventDefault()
+        selectOption(options[focusedIndex])
+      } else if (e.key === 'Escape') {
+        closeMenu()
+        trigger.focus()
+      }
+    })
+
+    options.forEach((option, index) => {
+      option.addEventListener('click', () => selectOption(option))
+      option.addEventListener('mouseenter', () => focusOption(index))
+    })
+
+    document.addEventListener('click', (e) => {
+      if (!dropdown.contains(e.target as Node) && isOpen) {
+        closeMenu()
       }
     })
   }
 
-  private showSuccessMessage(form: HTMLFormElement): void {
-    const existingMessage = form.querySelector('.success-message')
-    if (existingMessage) existingMessage.remove()
+  private setupFormHandler(): void {
+    const form = document.querySelector('#contact-form') as HTMLFormElement
+    if (!form) return
 
-    const message = document.createElement('div')
-    message.className = 'success-message'
-    message.innerHTML = `
-      <p class="font-semibold">Thank you for your enquiry!</p>
-      <p class="text-sm mt-1">We'll get back to you within 24 hours.</p>
-    `
+    const serviceInput = document.getElementById('service-input') as HTMLInputElement
+    const dropdownText = document.querySelector('.dropdown-text') as HTMLSpanElement
 
-    form.insertAdjacentElement('beforebegin', message)
+    form.addEventListener('submit', (e) => {
+      if (!serviceInput.value) {
+        e.preventDefault()
+        alert('Please select a service.')
+        return
+      }
+    })
 
-    setTimeout(() => {
-      message.remove()
-    }, 8000)
+    const resetDropdown = () => {
+      if (serviceInput) serviceInput.value = ''
+      if (dropdownText) {
+        dropdownText.textContent = 'Select a service'
+        dropdownText.classList.remove('selected')
+      }
+      document.querySelectorAll('[role="option"]').forEach(opt => {
+        opt.setAttribute('aria-selected', 'false')
+      })
+    }
+
+    form.addEventListener('reset', resetDropdown)
   }
 
   private setupMobileMenu(): void {
