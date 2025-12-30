@@ -15,6 +15,23 @@ The site is fully built, mobile-optimized, and ready for deployment to Netlify.
 
 ## Recent Changes (Dec 30, 2025)
 
+### Mobile & Tablet Responsiveness (Dec 30, 2025)
+1. **Global CSS Guardrails**:
+   - `overflow-x: hidden` on html/body to prevent horizontal scroll
+   - Max-width constraints on all media elements
+2. **Mobile Menu Improvements**:
+   - Body scroll lock preserves scroll position
+   - 44px minimum touch targets
+   - Max-height prevents menu overflow
+3. **Responsive Breakpoints**:
+   - Extra small (≤480px): Full-width hero buttons, compact spacing
+   - Mobile (≤768px): 16px inputs prevent iOS zoom, stacked layouts
+   - Tablet (768-1024px): 2-column grids, medium sizing
+   - Desktop (1024px+): 3-column services grid
+4. **Hero Section**: 100svh viewport height, stacked CTAs on mobile
+5. **Contact Form**: Touch-friendly dropdown with viewport-aware max-height
+6. **Footer**: Stacked layout on mobile with proper centering
+
 ### Netlify Forms + Custom Dropdown (Dec 30, 2025)
 1. **Netlify Forms Integration**:
    - Form renamed to `gmg-contact` with proper `data-netlify="true"` attributes
