@@ -1,0 +1,184 @@
+Project: Greene Mechanical Group – Final Polish & Completion Pass
+Goal: Subtle uplift, tighter layout, smoother UX. No rebrand. No visual overreach.
+
+1. Header & Primary CTA Cleanup
+
+Problem: “Call Dan” button feels oversized, boxy, and visually disconnected.
+
+Actions:
+
+Remove the “Call Dan” button entirely.
+
+Replace with a compact, text-based primary CTA:
+
+Label: “Call Now”
+
+Style:
+
+Inline button or pill
+
+Height reduced by ~30–40%
+
+Border-radius: 999px (pill)
+
+Subtle gold outline or underline on hover
+
+No solid block fill by default
+
+Add a secondary CTA beside it:
+
+“Request a Quote”
+
+Slightly stronger weight than “Call Now” but still restrained
+
+Ensure both CTAs align vertically with the navigation text baseline (no floating or oversized alignment).
+
+Outcome: Header feels balanced, premium, and intentional.
+
+2. Navigation Alignment Fix
+
+Problem: Services / Sectors / About / Contact feel spread and off-centre.
+
+Actions:
+
+Re-center the main navigation group horizontally.
+
+Use equal spacing between items.
+
+Ensure hover states are consistent:
+
+Subtle gold underline or fade
+
+No jumps, no size changes
+
+Reduce header height slightly to tighten first impression.
+
+Outcome: Navigation reads clean, symmetrical, and calm.
+
+3. Contact Details Integration (From Provided Image)
+
+Details to add globally (footer + contact section):
+
+Phone: 087 702 5171
+
+Email: dgmechanicalgroup@gmail.com
+
+Actions:
+
+Add phone and email text links:
+
+Use icons only if minimal (thin line icons)
+
+Gold accent on hover only
+
+Make phone number clickable (tel:)
+
+Make email clickable (mailto:)
+
+Ensure these details are NOT trapped inside an image anywhere on the site.
+
+Outcome: Contact info is accessible, usable, and professional.
+
+4. CTA Button Refinement (Hero Section)
+
+Problem: “Call Now” and “Request a Quote” feel basic.
+
+Actions:
+
+Redesign both buttons with:
+
+Softer radius
+
+Better padding ratios (more horizontal than vertical)
+
+Subtle hover animation:
+
+Background fade or outline glow
+
+No scale jump
+
+Ensure contrast passes accessibility but avoids harsh brightness.
+
+Align buttons cleanly under hero text with consistent spacing.
+
+Outcome: Buttons feel modern, confident, and finished.
+
+5. Services Section Tightening
+
+Actions:
+
+Slightly reduce vertical spacing between service items.
+
+Improve text rhythm:
+
+Headings slightly bolder
+
+Body text slightly lighter
+
+Add very subtle hover feedback:
+
+Light background lift
+
+Soft gold accent line or shadow
+
+No cards flying, flipping, or dramatic animations.
+
+Outcome: Services feel refined and easy to scan.
+
+6. Visual Consistency Pass
+
+Apply globally:
+
+Reduce excessive gold usage; keep it as an accent, not a fill.
+
+Ensure:
+
+Same border-radius language everywhere
+
+Same hover timing (≈200–250ms)
+
+Same font weights for similar roles
+
+Smooth scrolling enabled if not already.
+
+Outcome: Site feels cohesive and deliberate.
+
+7. Performance & Finish
+
+Remove any unused styles or scripts related to old buttons.
+
+Ensure mobile:
+
+Header does not feel crowded
+
+CTAs stack cleanly
+
+No layout shift on load.
+
+Constraints (Important)
+
+❌ No rebrand
+
+❌ No new sections
+
+❌ No dramatic animations
+
+❌ No colour overhaul
+
+✅ Polish only
+
+✅ Finish quality pass
+
+✅ Make it feel “done”
+
+Final Acceptance Criteria
+
+Header looks balanced and premium
+
+CTAs feel intentional, not bolted on
+
+Contact details are clear and usable
+
+Navigation is centred and calm
+
+Site feels smoother, tighter, and complete

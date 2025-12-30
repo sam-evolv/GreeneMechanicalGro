@@ -110,6 +110,79 @@
     letter-spacing: -0.01em;
   }
 
+  /* Navigation Link - refined with subtle underline hover */
+  .nav-link {
+    @apply relative text-text font-medium transition-all duration-200;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+  }
+
+  .nav-link::after {
+    content: '';
+    @apply absolute left-0 bottom-[-4px] w-0 h-[2px] bg-gold transition-all duration-200;
+  }
+
+  .nav-link:hover {
+    @apply text-gold;
+  }
+
+  .nav-link:hover::after {
+    @apply w-full;
+  }
+
+  /* Header CTA Pills - compact and refined */
+  .cta-pill-outline {
+    @apply inline-flex items-center gap-2 px-4 py-2 border border-gold/60 text-gold rounded-full transition-all duration-200;
+    font-family: var(--font-heading);
+    font-weight: 500;
+    font-size: 0.875rem;
+  }
+
+  .cta-pill-outline:hover {
+    @apply border-gold text-gold;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .cta-pill-solid {
+    @apply inline-flex items-center gap-2 px-5 py-2 bg-gold/90 text-ink rounded-full transition-all duration-200;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.875rem;
+  }
+
+  .cta-pill-solid:hover {
+    @apply bg-gold shadow-md;
+    box-shadow: 0 4px 12px rgba(212, 177, 95, 0.25);
+  }
+
+  /* Hero Buttons - refined with softer styling */
+  .hero-btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-3 bg-gold text-ink rounded-xl transition-all duration-250 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-ink;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: -0.01em;
+  }
+
+  .hero-btn-primary:hover {
+    @apply bg-gold-light;
+    box-shadow: 0 8px 24px rgba(212, 177, 95, 0.3);
+  }
+
+  .hero-btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-3 border-2 border-gold/70 text-gold rounded-xl transition-all duration-250 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-ink;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: -0.01em;
+  }
+
+  .hero-btn-secondary:hover {
+    @apply border-gold bg-gold/10;
+    box-shadow: 0 0 20px rgba(212, 177, 95, 0.15);
+  }
+
   .glass {
     background: rgba(255, 255, 255, 0.04);
     backdrop-filter: blur(10px);
@@ -126,13 +199,16 @@
   }
 
   .service-card {
-    @apply card card-hover;
-    border-top: 2px solid var(--gold);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4), 0 0 1px rgba(212, 177, 95, 0.2);
+    @apply card;
+    border-top: 2px solid rgba(212, 177, 95, 0.4);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   }
 
   .service-card:hover {
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 20px rgba(212, 177, 95, 0.15);
+    @apply -translate-y-1;
+    border-top-color: var(--gold);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(212, 177, 95, 0.15);
+    background: rgba(255, 255, 255, 0.05);
   }
 
   .section-bg {
@@ -281,7 +357,7 @@
 }
 
 .grid-services {
-  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5;
 }
 
 .grid-process {
@@ -381,39 +457,36 @@ button[type="submit"]:hover {
   transform: translateY(0);
 }
 
-/* Unified Card Hover Effects */
+/* Unified Card Hover Effects - Refined */
 .service-card,
 .card {
   position: relative;
   overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform, box-shadow;
 }
 
-.service-card:hover,
 .card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 0 25px rgba(40, 146, 229, 0.25), 0 0 10px rgba(212, 177, 95, 0.15);
-  border-color: rgba(212, 177, 95, 0.4);
-  background: radial-gradient(circle at 50% 30%, rgba(40, 146, 229, 0.08), rgba(255, 255, 255, 0.04) 70%);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(40, 146, 229, 0.1);
+  background: rgba(255, 255, 255, 0.05);
 }
 
-/* Animated highlight edge on hover */
-.service-card::after,
-.card::after {
+/* Subtle gold accent line on hover */
+.service-card::before {
   content: '';
   position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(40, 146, 229, 0.2), rgba(212, 177, 95, 0.2));
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
   opacity: 0;
-  transition: opacity 0.5s ease;
-  pointer-events: none;
-  border-radius: inherit;
+  transition: opacity 0.25s ease;
 }
 
-.service-card:hover::after,
-.card:hover::after {
-  opacity: 1;
+.service-card:hover::before {
+  opacity: 0.6;
 }
 
 .service-card > *,

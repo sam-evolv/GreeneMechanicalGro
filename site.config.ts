@@ -2,9 +2,9 @@ export const siteConfig = {
   company: "Greene Mechanical Group",
   short: "GMG",
   owner: "Dan Greene",
-  phoneDisplay: "+353 87 000 0000",
-  phoneE164: "+353870000000",
-  email: "hello@gmg-services.ie",
+  phoneDisplay: "087 702 5171",
+  phoneE164: "+353877025171",
+  email: "dgmechanicalgroup@gmail.com",
   serviceArea: "Cork & surrounding counties",
   address: "Cork, Ireland",
   certs: [
