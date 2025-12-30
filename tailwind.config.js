@@ -8,7 +8,10 @@ export default {
     extend: {
       colors: {
         ink: '#0B0D10',
-        gold: '#D4B15F',
+        gold: {
+          DEFAULT: '#D4B15F',
+          light: '#F0D488',
+        },
         gas: '#2892E5',
         text: '#EAECEF',
         muted: '#9AA3AE',
