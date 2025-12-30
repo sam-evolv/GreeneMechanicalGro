@@ -484,9 +484,11 @@ label {
 }
 
 .dropdown-menu li:hover,
-.dropdown-menu li:focus {
+.dropdown-menu li:focus,
+.dropdown-menu li.focused {
   background: var(--gold);
   color: #0B0D10;
+  outline: none;
 }
 
 .dropdown-menu li[aria-selected="true"] {

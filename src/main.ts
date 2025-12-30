@@ -165,11 +165,16 @@ class GMGWebsite {
 
     const trigger = dropdown.querySelector('.dropdown-trigger') as HTMLButtonElement
     const menu = dropdown.querySelector('.dropdown-menu') as HTMLUListElement
-    const options = dropdown.querySelectorAll('[role="option"]')
+    const optionElements = dropdown.querySelectorAll('[role="option"]') as NodeListOf<HTMLElement>
     const hiddenInput = document.getElementById('service-input') as HTMLInputElement
     const textEl = dropdown.querySelector('.dropdown-text') as HTMLSpanElement
 
     if (!trigger || !menu || !hiddenInput || !textEl) return
+
+    menu.tabIndex = -1
+    optionElements.forEach(opt => {
+      opt.tabIndex = -1
+    })
 
     let isOpen = false
     let focusedIndex = -1
@@ -178,14 +183,19 @@ class GMGWebsite {
       isOpen = true
       trigger.setAttribute('aria-expanded', 'true')
       menu.classList.add('open')
-      focusedIndex = -1
+      focusedIndex = 0
+      setTimeout(() => {
+        focusOption(0)
+      }, 10)
     }
 
-    const closeMenu = () => {
+    const closeMenu = (returnFocus = true) => {
       isOpen = false
       trigger.setAttribute('aria-expanded', 'false')
       menu.classList.remove('open')
+      optionElements.forEach(opt => opt.classList.remove('focused'))
       focusedIndex = -1
+      if (returnFocus) trigger.focus()
     }
 
     const selectOption = (option: Element) => {
@@ -196,31 +206,31 @@ class GMGWebsite {
       textEl.textContent = text
       textEl.classList.add('selected')
       
-      options.forEach(opt => opt.setAttribute('aria-selected', 'false'))
+      optionElements.forEach(opt => opt.setAttribute('aria-selected', 'false'))
       option.setAttribute('aria-selected', 'true')
       
-      closeMenu()
-      trigger.focus()
+      closeMenu(true)
     }
 
     const focusOption = (index: number) => {
-      if (index < 0) index = options.length - 1
-      if (index >= options.length) index = 0
+      if (index < 0) index = optionElements.length - 1
+      if (index >= optionElements.length) index = 0
       focusedIndex = index
       
-      options.forEach((opt, i) => {
+      optionElements.forEach((opt, i) => {
         if (i === index) {
-          (opt as HTMLElement).classList.add('focused')
+          opt.classList.add('focused')
+          opt.focus()
           opt.scrollIntoView({ block: 'nearest' })
         } else {
-          (opt as HTMLElement).classList.remove('focused')
+          opt.classList.remove('focused')
         }
       })
     }
 
     trigger.addEventListener('click', () => {
       if (isOpen) {
-        closeMenu()
+        closeMenu(false)
       } else {
         openMenu()
       }
@@ -229,40 +239,58 @@ class GMGWebsite {
     trigger.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault()
-        if (!isOpen) openMenu()
+        if (!isOpen) {
+          openMenu()
+        }
       } else if (e.key === 'ArrowDown') {
         e.preventDefault()
-        if (!isOpen) openMenu()
-        focusOption(0)
-      } else if (e.key === 'Escape' && isOpen) {
-        closeMenu()
-      }
-    })
-
-    menu.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowDown') {
-        e.preventDefault()
-        focusOption(focusedIndex + 1)
+        if (!isOpen) {
+          openMenu()
+        } else {
+          focusOption(focusedIndex + 1)
+        }
       } else if (e.key === 'ArrowUp') {
         e.preventDefault()
-        focusOption(focusedIndex - 1)
-      } else if (e.key === 'Enter' && focusedIndex >= 0) {
-        e.preventDefault()
-        selectOption(options[focusedIndex])
-      } else if (e.key === 'Escape') {
-        closeMenu()
-        trigger.focus()
+        if (!isOpen) {
+          openMenu()
+        } else {
+          focusOption(focusedIndex - 1)
+        }
+      } else if (e.key === 'Escape' && isOpen) {
+        closeMenu(true)
       }
     })
 
-    options.forEach((option, index) => {
+    optionElements.forEach((option, index) => {
       option.addEventListener('click', () => selectOption(option))
-      option.addEventListener('mouseenter', () => focusOption(index))
+      option.addEventListener('mouseenter', () => {
+        focusedIndex = index
+        optionElements.forEach((opt, i) => {
+          opt.classList.toggle('focused', i === index)
+        })
+      })
+      
+      option.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault()
+          focusOption(index + 1)
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault()
+          focusOption(index - 1)
+        } else if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          selectOption(option)
+        } else if (e.key === 'Escape') {
+          closeMenu(true)
+        } else if (e.key === 'Tab') {
+          closeMenu(false)
+        }
+      })
     })
 
     document.addEventListener('click', (e) => {
       if (!dropdown.contains(e.target as Node) && isOpen) {
-        closeMenu()
+        closeMenu(false)
       }
     })
   }
