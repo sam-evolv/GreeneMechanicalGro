@@ -327,11 +327,13 @@ class GMGWebsite {
   private setupMobileMenu(): void {
     const menuButton = document.getElementById('mobile-menu-button')
     const mobileMenu = document.getElementById('mobile-menu')
+    const backdrop = document.getElementById('mobile-backdrop')
+    const closeButton = document.getElementById('mobile-close-button')
     const hamburgerIcon = document.getElementById('hamburger-icon')
     const closeIcon = document.getElementById('close-icon')
-    const menuLinks = document.querySelectorAll('.mobile-menu-link')
+    const menuLinks = mobileMenu?.querySelectorAll('.mobile-nav-link')
 
-    if (!menuButton || !mobileMenu || !hamburgerIcon || !closeIcon) return
+    if (!menuButton || !mobileMenu || !backdrop || !hamburgerIcon || !closeIcon) return
 
     const getFocusableElements = (): HTMLElement[] => {
       const focusableSelectors = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
@@ -361,50 +363,91 @@ class GMGWebsite {
     }
 
     let scrollPosition = 0
+    let closeTimeout: ReturnType<typeof setTimeout> | null = null
 
-    const toggleMenu = () => {
-      const isExpanded = menuButton.getAttribute('aria-expanded') === 'true'
+    const openMenu = () => {
+      if (closeTimeout) {
+        clearTimeout(closeTimeout)
+        closeTimeout = null
+      }
       
-      menuButton.setAttribute('aria-expanded', (!isExpanded).toString())
+      scrollPosition = window.pageYOffset
       
-      if (isExpanded) {
-        mobileMenu.setAttribute('hidden', '')
-        hamburgerIcon.classList.remove('hidden')
-        closeIcon.classList.add('hidden')
-        document.body.classList.remove('menu-open')
-        document.body.style.top = ''
-        window.scrollTo(0, scrollPosition)
-        mobileMenu.removeEventListener('keydown', trapFocus)
-      } else {
-        scrollPosition = window.pageYOffset
-        mobileMenu.removeAttribute('hidden')
-        hamburgerIcon.classList.add('hidden')
-        closeIcon.classList.remove('hidden')
-        document.body.classList.add('menu-open')
-        document.body.style.top = `-${scrollPosition}px`
-        mobileMenu.addEventListener('keydown', trapFocus)
-        
-        const focusableElements = getFocusableElements()
-        if (focusableElements.length > 0) {
-          focusableElements[0].focus()
-        }
+      mobileMenu.removeAttribute('hidden')
+      backdrop.removeAttribute('hidden')
+      
+      requestAnimationFrame(() => {
+        mobileMenu.classList.add('active')
+        backdrop.classList.add('active')
+      })
+      
+      hamburgerIcon.classList.add('hidden')
+      closeIcon.classList.remove('hidden')
+      menuButton.setAttribute('aria-expanded', 'true')
+      
+      document.body.classList.add('menu-open')
+      document.body.style.top = `-${scrollPosition}px`
+      
+      mobileMenu.addEventListener('keydown', trapFocus)
+      
+      const focusableElements = getFocusableElements()
+      if (focusableElements.length > 0) {
+        setTimeout(() => focusableElements[0].focus(), 100)
       }
     }
 
     const closeMenu = () => {
-      menuButton.setAttribute('aria-expanded', 'false')
-      mobileMenu.setAttribute('hidden', '')
+      if (closeTimeout) {
+        clearTimeout(closeTimeout)
+        closeTimeout = null
+      }
+      
+      mobileMenu.classList.remove('active')
+      backdrop.classList.remove('active')
+      
       hamburgerIcon.classList.remove('hidden')
       closeIcon.classList.add('hidden')
+      menuButton.setAttribute('aria-expanded', 'false')
+      
       document.body.classList.remove('menu-open')
       document.body.style.top = ''
       window.scrollTo(0, scrollPosition)
+      
       mobileMenu.removeEventListener('keydown', trapFocus)
+      
+      closeTimeout = setTimeout(() => {
+        if (menuButton.getAttribute('aria-expanded') === 'false') {
+          mobileMenu.setAttribute('hidden', '')
+          backdrop.setAttribute('hidden', '')
+        }
+        closeTimeout = null
+      }, 300)
+    }
+
+    const toggleMenu = () => {
+      const isExpanded = menuButton.getAttribute('aria-expanded') === 'true'
+      if (isExpanded) {
+        closeMenu()
+      } else {
+        openMenu()
+      }
     }
 
     menuButton.addEventListener('click', toggleMenu)
+    
+    if (closeButton) {
+      closeButton.addEventListener('click', () => {
+        closeMenu()
+        menuButton.focus()
+      })
+    }
+    
+    backdrop.addEventListener('click', () => {
+      closeMenu()
+      menuButton.focus()
+    })
 
-    menuLinks.forEach(link => {
+    menuLinks?.forEach(link => {
       link.addEventListener('click', () => {
         closeMenu()
         menuButton.focus()
@@ -413,18 +456,6 @@ class GMGWebsite {
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && menuButton.getAttribute('aria-expanded') === 'true') {
-        closeMenu()
-        menuButton.focus()
-      }
-    })
-
-    document.addEventListener('click', (e) => {
-      const target = e.target as HTMLElement
-      if (
-        menuButton.getAttribute('aria-expanded') === 'true' &&
-        !mobileMenu.contains(target) &&
-        !menuButton.contains(target)
-      ) {
         closeMenu()
         menuButton.focus()
       }

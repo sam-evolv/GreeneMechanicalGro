@@ -1,0 +1,145 @@
+Replit Agent Execution Prompt - Fix Mobile Menu UX + Remove Scroll Blocking + Improve Performance on iPhone/Android
+
+Objective
+The mobile menu currently looks out of place and the site blocks scrolling until visual effects finish loading. This is not acceptable. Fix mobile navigation so it looks premium, behaves correctly, and the page is always scrollable immediately on load.
+
+Constraints
+
+* No redesign of desktop.
+* Mobile-first polish only.
+* Maintain GMG dark + gold theme.
+* Do not block scroll at any time when the menu is closed.
+
+Part 1 - Fix the mobile menu design and behavior (make it feel native and premium)
+
+1. Locate the mobile menu implementation
+
+* Find the header / navbar component and the mobile menu overlay (search for “menu”, “mobile”, “hamburger”, “open”, “overlay”, “drawer”).
+* Identify how it is opened/closed, what styles it uses, and what it does to body scroll.
+
+2. Replace the current mobile menu UI with a proper mobile drawer
+   Requirement: Use a clean, consistent, modern slide-in drawer from the right OR a full-screen overlay. Pick one and implement properly.
+
+Recommended UX (drawer from right):
+
+* Drawer container: position: fixed; top: 0; right: 0; height: 100dvh; width: min(90vw, 420px)
+* Background: solid dark (match site cards), slight gradient allowed, no heavy blur
+* Border-left: 1px solid gold accent
+* z-index above everything
+* Animate open/close using transform: translateX(100%) -> 0 (CSS transition). Do not animate with heavy libraries on mobile.
+* Include:
+
+  * Top row: small GMG logo left, close “X” button right
+  * Nav links in a clean vertical list: Services, Sectors, About, Contact
+  * One primary CTA at the bottom: Call Now (gold with black text)
+  * Optional secondary CTA only if you insist, otherwise remove: Request a Quote (outlined)
+* Touch targets: 44px minimum height
+* Link spacing: clean, consistent, no huge gaps
+* Ensure safe area padding for iPhone notch:
+
+  * padding-top: env(safe-area-inset-top)
+  * padding-bottom: env(safe-area-inset-bottom)
+
+Backdrop:
+
+* Add a dim backdrop behind the drawer:
+
+  * background: rgba(0,0,0,0.55)
+  * Click on backdrop closes menu
+
+Accessibility:
+
+* ESC closes
+* Focus trap inside menu when open
+* Return focus to hamburger button on close
+* aria-expanded and aria-controls set correctly
+
+3. Critical: Do not allow the mobile menu to look like a random “box” floating
+
+* Remove any oversized box styling, unnecessary borders, and inconsistent shadows.
+* The drawer should feel intentional and anchored to the right edge.
+
+Part 2 - Fix the scroll blocking issue (site must scroll immediately)
+Problem described: “It won’t let you slide until effects are fully loaded and it stops you from sliding down the screen.”
+
+You must remove any logic that blocks scroll on page load. This is typically caused by:
+
+* body { overflow: hidden } being set on load
+* a full-screen loading overlay capturing pointer events
+* heavy animations delaying main thread
+* a background layer with pointer-events capturing touch events
+* scroll-lock code mistakenly enabled outside the menu
+
+Tasks:
+
+1. Audit scroll locking code
+
+* Search for:
+
+  * overflow: hidden
+  * document.body.style.overflow
+  * position: fixed on body/html
+  * “disableScroll”, “lockScroll”, “scrollLock”
+  * loading overlays / “isLoading”
+* Ensure the ONLY time body scroll is locked is when the mobile menu is OPEN.
+* When menu is CLOSED, body must always be scrollable.
+
+2. Ensure decorative layers do not capture touch events
+
+* For all non-interactive overlays (hero effects, glow layers, background media, animated gradients):
+
+  * Set pointer-events: none
+  * Ensure they are not positioned above the content with a higher z-index than needed
+    This is a common cause of “can’t scroll” on mobile.
+
+3. Reduce or defer heavy effects on mobile
+   On small screens (<= 768px), implement performance gating:
+
+* Disable backdrop-filter blur on mobile (very expensive on iOS Safari)
+* Reduce large box-shadows and glow effects
+* If there is a hero video or large background image effect:
+
+  * Do not block render waiting for it
+  * Ensure it loads async and does not freeze scrolling
+    Implementation options:
+* Use CSS media query to simplify effects on mobile:
+
+  * @media (max-width: 768px) { disable heavy filters/blur/glow; }
+* Respect prefers-reduced-motion:
+
+  * @media (prefers-reduced-motion: reduce) { turn off animations; }
+* If animations are JS-driven, delay them:
+
+  * Start non-critical animations after first interaction or after requestIdleCallback / setTimeout(0)
+* Ensure there is no “loading gate” that prevents scroll until assets load.
+
+4. Confirm the menu open state doesn’t break scrolling permanently
+
+* When the drawer closes:
+
+  * Restore body overflow to its previous value
+  * Ensure no fixed positioning remains on body/html
+* Prevent “stuck scroll” bug on iOS by storing scrollY before lock and restoring it properly if you use position: fixed technique.
+
+Part 3 - Mobile acceptance tests (must pass)
+You must test in DevTools responsive mode and on iPhone viewport emulation:
+
+* iPhone width: 390px
+* Android width: 360px
+  Confirm:
+
+1. Site scrolls immediately on first load (no waiting for effects).
+2. You can scroll up and down repeatedly with no touch capture bugs.
+3. Mobile menu opens smoothly, looks on-brand, and does not overlap awkwardly.
+4. While menu is open, background is locked (expected), but the drawer itself scrolls if content exceeds height.
+5. Close button and backdrop click always closes the menu.
+6. No horizontal scrolling at any point.
+
+Deliverables
+
+* Update the header/mobile menu component and any related CSS.
+* Remove any page-load scroll blocking logic.
+* Add mobile performance gating for heavy effects.
+* Provide a short summary: files changed and what was fixed.
+
+Implement now in the codebase and verify the above acceptance tests.
