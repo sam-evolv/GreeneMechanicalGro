@@ -15,6 +15,17 @@ The site is fully built, mobile-optimized, and ready for deployment to Netlify.
 
 ## Recent Changes (Dec 30, 2025)
 
+### Netlify Forms + Custom Dropdown (Dec 30, 2025)
+1. **Netlify Forms Integration**:
+   - Form renamed to `gmg-contact` with proper `data-netlify="true"` attributes
+   - Honeypot spam protection (`data-netlify-honeypot="bot-field"`)
+   - Redirect to `/thank-you.html` on successful submission
+2. **Custom Service Dropdown**:
+   - Replaced native `<select>` with themed custom dropdown (dark + gold)
+   - Full keyboard accessibility (Tab, Enter, Space, ArrowUp/Down, Escape)
+   - Hidden input captures selected value for Netlify submission
+3. **Thank You Page**: Created `public/thank-you.html` with matching theme
+
 ### Final Polish Pass
 1. **Header CTAs**: Removed "Call Dan" button, replaced with refined "Call Now" and "Request a Quote" pill buttons
 2. **Navigation**: Centered nav items with consistent gold-underline hover states
