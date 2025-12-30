@@ -13,7 +13,20 @@ The site is fully built, mobile-optimized, and ready for deployment to Netlify.
 - **Styling**: Tailwind CSS
 - **Target**: Static site deployment (Netlify)
 
-## Recent Changes (Nov 5, 2025)
+## Recent Changes (Dec 30, 2025)
+
+### Final Polish Pass
+1. **Header CTAs**: Removed "Call Dan" button, replaced with refined "Call Now" and "Request a Quote" pill buttons
+2. **Navigation**: Centered nav items with consistent gold-underline hover states
+3. **Contact Info Updated**: 
+   - Phone: 087 702 5171
+   - Email: dgmechanicalgroup@gmail.com
+4. **Hero Buttons**: Softer rounded styling, subtle hover animations (no jarring scale jumps)
+5. **Services Section**: Tightened grid spacing, subtle card hover effects
+6. **Visual Consistency**: Unified transition timing (200-250ms), reduced gold saturation
+7. **Footer Enhanced**: Logo, contact info with icons, navigation links
+
+## Previous Changes (Nov 5, 2025)
 
 ### Mobile-First Production Optimization
 1. **Hamburger Menu**: Implemented accessible mobile navigation with:
