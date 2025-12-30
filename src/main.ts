@@ -331,12 +331,12 @@ class GMGWebsite {
     const closeButton = document.getElementById('mobile-close-button')
     const hamburgerIcon = document.getElementById('hamburger-icon')
     const closeIcon = document.getElementById('close-icon')
-    const menuLinks = mobileMenu?.querySelectorAll('.mobile-nav-link')
-
     if (!menuButton || !mobileMenu || !backdrop || !hamburgerIcon || !closeIcon) return
 
+    const menuLinks = mobileMenu.querySelectorAll('.mobile-nav-link')
+
     const getFocusableElements = (): HTMLElement[] => {
-      const focusableSelectors = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      const focusableSelectors = 'a[href]:not([hidden]), button:not([disabled]):not([hidden]), [tabindex]:not([tabindex="-1"]):not([hidden])'
       return Array.from(mobileMenu.querySelectorAll(focusableSelectors)) as HTMLElement[]
     }
 

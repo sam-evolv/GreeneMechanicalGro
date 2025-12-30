@@ -1,0 +1,124 @@
+Replit Agent Execution Prompt - Upgrade Mobile Menu (Premium Drawer, Bigger Logo, Better Proportions)
+
+Objective
+The new mobile drawer is directionally correct, but it still feels basic. Improve the mobile menu so it looks more premium:
+
+* The drawer should not feel like it stretches unnecessarily the full height with dead space.
+* Make the GMG logo noticeably bigger and more brand-forward.
+* Improve spacing, hierarchy, and finish so it feels “high-end”, not “default”.
+
+Constraints
+
+* Keep the same slide-in drawer architecture and current open/close logic.
+* Do not reintroduce scroll blocking when menu is closed.
+* Keep theme consistent (dark + gold).
+* Maintain accessibility (keyboard, focus trap, ESC close).
+
+Part 1 - Make the drawer feel more designed (not a blank full-height panel)
+
+1. Reduce the “empty wall” feel
+   Implement one of these approaches (choose the one that fits the current code cleanly):
+
+Option A (recommended): Full-height drawer, but with structured sections
+
+* Keep height: 100dvh (required for safe behavior), BUT visually segment it:
+
+  * Top brand header (logo + close)
+  * Nav section (links)
+  * CTA section (pinned bottom)
+* Add subtle internal dividers:
+
+  * Thin 1px line in low-opacity gold/white between header and nav
+  * Another divider above CTA block
+* Add a subtle background texture:
+
+  * Very subtle radial gradient, not blur, no heavy filters
+  * Avoid “boxy flat rectangle” feeling
+
+Option B: Drawer with “carded” nav container inside
+
+* Keep drawer full-height, but place the nav list inside a centered panel with rounded corners:
+
+  * Panel background slightly lighter than drawer
+  * Panel padding 16–20px
+  * Panel max-width ~360px
+    This makes it feel intentional without breaking usability.
+
+Do NOT make the drawer actually shorter than the viewport, because that causes awkward tap/scroll edge cases. The visual treatment should make it feel tighter while remaining technically full-height.
+
+2. Improve the nav typography and rhythm
+
+* Increase link font-size slightly (eg 18–20px)
+* Reduce excessive vertical spacing if present
+* Add a micro-interaction:
+
+  * On tap/active: subtle gold left bar or underline
+  * On hover (desktop emulation): subtle highlight, no neon
+
+Part 2 - Make the GMG logo significantly bigger
+Requirement
+
+* The GMG logo in the mobile drawer header is currently too small.
+* Increase it materially so it feels like a brand moment.
+
+Implementation details
+
+* Increase logo height to ~28–34px (depending on available space)
+* Ensure it remains sharp:
+
+  * If SVG: scale normally
+  * If PNG: use correct sizing and avoid CSS blur
+* Keep it vertically aligned with the close button
+* Add a small label under it only if it already exists elsewhere (otherwise keep logo-only)
+
+Part 3 - Improve close button and top bar polish
+
+* Make close button a proper icon button:
+
+  * 40–44px hit area
+  * Slight background on tap/hover (subtle)
+  * Gold or off-white icon for visibility
+* Add safe-area top padding (already done) but ensure the header doesn’t sit too low.
+
+Part 4 - CTA section refinement (reduce “two giant bars” look)
+Current issue on the iPhone screenshot: the two CTAs feel like big slabs.
+Improve:
+
+* Keep “Call Now” as the primary CTA.
+* If “Request a Quote” exists in the menu, make it secondary and lighter:
+
+  * Outlined, slimmer height, less dominant.
+* Reduce CTA height slightly on mobile:
+
+  * Target 48–52px height
+* Improve spacing:
+
+  * 10–12px gap between CTAs
+  * 16–20px padding around CTA block
+
+Part 5 - Menu must remain fluid and never block page scroll when closed
+Regression guardrails
+
+* Confirm body scroll lock only applies when menu is open.
+* Confirm decorative layers still have pointer-events: none.
+* Confirm no expensive mobile blur was reintroduced.
+
+Acceptance criteria (must pass)
+
+* On iPhone width (390px):
+
+  * Drawer feels designed and premium (structured sections, not a blank wall)
+  * GMG logo is clearly visible and brand-forward (noticeably bigger)
+  * CTAs feel refined (not giant slabs)
+  * Menu opens/closes smoothly; no scroll blocking when closed
+* On Android width (360px):
+
+  * No overflow, no clipped content
+* Accessibility remains:
+
+  * ESC closes
+  * Focus trap works
+  * Close returns focus to hamburger
+
+Deliverable
+Implement these refinements directly in the codebase (header/menu CSS and markup only), restart preview, and validate on mobile viewport emulation.

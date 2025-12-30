@@ -15,20 +15,24 @@ The site is fully built, mobile-optimized, and ready for deployment to Netlify.
 
 ## Recent Changes (Dec 30, 2025)
 
-### Mobile Menu UX Redesign (Dec 30, 2025)
-1. **Slide-in Drawer**: Replaced dropdown menu with premium slide-in drawer from right
-   - Fixed positioning: `height: 100dvh`, `width: min(85vw, 320px)`
-   - Gold left border accent
-   - Header with logo and close button
-   - Smooth slide animation with backdrop
-2. **Backdrop Overlay**: Semi-transparent backdrop with click-to-close
-3. **iPhone Safe Area**: Proper padding for notch (`env(safe-area-inset-*)`)
-4. **Mobile Performance**:
-   - Disabled `backdrop-filter` blur on mobile (expensive on iOS Safari)
+### Mobile Menu Premium Upgrade (Dec 30, 2025)
+1. **Premium Slide-in Drawer**:
+   - Tighter width: `min(80vw, 300px)` for better proportions
+   - Subtle radial gradient overlay for depth (no blur)
+   - 2px gold border accent
+   - Gold-tinted dividers (15% opacity)
+2. **Larger Logo**: 50px height (brand-forward presence)
+3. **Refined Nav Links**:
+   - 52px touch targets with gold left bar on active
+   - Tight letter-spacing for premium typography
+4. **Polished Close Button**: Subtle background, gold on hover
+5. **Optimized CTA**: 50px height button with 10px rounded corners
+6. **Mobile Performance**:
+   - Disabled `backdrop-filter` blur on mobile
    - Disabled card glow effects on mobile
    - Added `prefers-reduced-motion` support
-5. **Scroll Lock**: Only locked when menu is open, no blocking on page load
-6. **Accessibility**: Focus trap, ESC key close, focus return to hamburger
+7. **Accessibility**: Focus trap, ESC close, focus return to hamburger
+8. **Scroll Lock**: Only locked when menu is open
 
 ### Header Nav Centering (Dec 30, 2025)
 1. **Centered Navigation**: Nav links (Services, Sectors, About, Contact) now centered between logo and CTA
