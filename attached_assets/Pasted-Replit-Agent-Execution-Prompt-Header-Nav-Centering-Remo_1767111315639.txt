@@ -1,0 +1,61 @@
+Replit Agent Execution Prompt - Header Nav Centering + Remove “Request a Quote” + Reposition “Call Now”
+
+Objective
+Tighten the top navbar:
+
+* Center-align the navigation links (Services, Sectors, About, Contact) as a group.
+* Remove the header “Request a Quote” button completely.
+* Move the “Call Now” button into the “Request a Quote” button’s former position (far top-right), so there is only ONE header CTA.
+
+Constraints
+
+* No redesign, no new sections.
+* Preserve existing brand (dark + gold).
+* Do not break mobile layout or hamburger menu behavior.
+
+Tasks
+
+1. Center the main nav links
+
+* Locate the header/nav component (search for header markup containing “Services”, “Sectors”, “About”, “Contact”).
+* Adjust the header layout so the nav links group is visually centered across the available width.
+  Implementation requirements:
+* The nav links should sit in the middle of the header (balanced left-right).
+* Use consistent spacing between links.
+* Ensure hover underline/fade behavior remains unchanged.
+* Do not allow link wrapping on desktop; if needed tighten spacing slightly.
+
+Target layout:
+[Logo (left)]  [Services  Sectors  About  Contact (centered)]  [Call Now CTA (right)]
+
+2. Remove the header “Request a Quote” button
+
+* Delete/hide the “Request a Quote” button in the top navbar.
+* Do not remove the hero section “Request a Quote” button (keep the homepage CTA pair).
+
+3. Move “Call Now” into the removed button’s position
+
+* Ensure the “Call Now” CTA occupies the far top-right slot where “Request a Quote” previously was.
+* There must only be one CTA in the header.
+* Confirm the “Call Now” CTA remains gold background with black text (as previously specified), with a subtle hover effect.
+
+4. Maintain responsive behavior
+
+* Desktop: nav centered, no overlap, no clipping.
+* Tablet: nav remains usable; if space is tight, reduce nav gap slightly.
+* Mobile: keep hamburger menu behavior unchanged:
+
+  * If a mobile menu exists, “Call Now” appears either:
+
+    * as the top item in the menu, or
+    * stays in the header if there is room
+  * Ensure no double CTA appears.
+
+Acceptance Checks
+
+* On desktop (≥1024px): nav links visually centered; only one header CTA visible (Call Now on far right).
+* On iPad widths (768–1024px): no wrapping or overlap.
+* On mobile (≤480px): header remains clean; menu operates normally; no duplicate CTAs.
+
+Deliverable
+Implement changes in the codebase, run preview, and confirm the header matches the target layout and remains responsive.

@@ -15,6 +15,13 @@ The site is fully built, mobile-optimized, and ready for deployment to Netlify.
 
 ## Recent Changes (Dec 30, 2025)
 
+### Header Nav Centering (Dec 30, 2025)
+1. **Centered Navigation**: Nav links (Services, Sectors, About, Contact) now centered between logo and CTA
+2. **Single Header CTA**: Removed "Request a Quote" from header, only "Call Now" remains (gold solid button)
+3. **Absolute Positioning**: Nav uses `left-1/2 -translate-x-1/2` for true centering
+4. **Mobile Menu**: Single "Call Now" CTA in mobile menu (removed duplicate)
+5. **Hero Unchanged**: Still has both "Call Now" and "Request a Quote" buttons
+
 ### Mobile & Tablet Responsiveness (Dec 30, 2025)
 1. **Global CSS Guardrails**:
    - `overflow-x: hidden` on html/body to prevent horizontal scroll
