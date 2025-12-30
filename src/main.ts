@@ -360,6 +360,8 @@ class GMGWebsite {
       }
     }
 
+    let scrollPosition = 0
+
     const toggleMenu = () => {
       const isExpanded = menuButton.getAttribute('aria-expanded') === 'true'
       
@@ -369,13 +371,17 @@ class GMGWebsite {
         mobileMenu.setAttribute('hidden', '')
         hamburgerIcon.classList.remove('hidden')
         closeIcon.classList.add('hidden')
-        document.body.style.overflow = ''
+        document.body.classList.remove('menu-open')
+        document.body.style.top = ''
+        window.scrollTo(0, scrollPosition)
         mobileMenu.removeEventListener('keydown', trapFocus)
       } else {
+        scrollPosition = window.pageYOffset
         mobileMenu.removeAttribute('hidden')
         hamburgerIcon.classList.add('hidden')
         closeIcon.classList.remove('hidden')
-        document.body.style.overflow = 'hidden'
+        document.body.classList.add('menu-open')
+        document.body.style.top = `-${scrollPosition}px`
         mobileMenu.addEventListener('keydown', trapFocus)
         
         const focusableElements = getFocusableElements()
@@ -390,7 +396,9 @@ class GMGWebsite {
       mobileMenu.setAttribute('hidden', '')
       hamburgerIcon.classList.remove('hidden')
       closeIcon.classList.add('hidden')
-      document.body.style.overflow = ''
+      document.body.classList.remove('menu-open')
+      document.body.style.top = ''
+      window.scrollTo(0, scrollPosition)
       mobileMenu.removeEventListener('keydown', trapFocus)
     }
 

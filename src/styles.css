@@ -26,6 +26,7 @@
 
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
 
   body {
@@ -37,6 +38,11 @@
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+  }
+  
+  img, video, canvas, svg {
+    max-width: 100%;
+    height: auto;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -465,9 +471,10 @@ label {
 }
 
 .dropdown-menu.open {
-  max-height: 300px;
+  max-height: min(300px, 50vh);
   opacity: 1;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .dropdown-menu li {
@@ -643,6 +650,8 @@ button[type="submit"]:hover {
   background: var(--panel);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   animation: slideDown 0.3s ease-out;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
 }
 
 @keyframes slideDown {
@@ -660,12 +669,99 @@ button[type="submit"]:hover {
   display: none;
 }
 
-/* Mobile optimization - disable parallax on touch devices */
+body.menu-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
+
+/* Mobile menu touch targets */
+#mobile-menu-button {
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS - Mobile First
+   ============================================ */
+
+/* Extra Small (360-480px) - iPhone, Android small */
+@media (max-width: 480px) {
+  .section-padding {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .section-spacing {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+  
+  .hero-title {
+    font-size: clamp(1.5rem, 8vw, 2rem) !important;
+    line-height: 1.1;
+    padding: 0 0.5rem;
+  }
+  
+  .logo-gmg {
+    height: 80px !important;
+  }
+  
+  .hero-btn-primary,
+  .hero-btn-secondary {
+    width: 100%;
+    justify-content: center;
+    padding: 0.875rem 1.5rem;
+    font-size: 0.95rem;
+  }
+  
+  .service-card,
+  .card {
+    padding: 1.25rem;
+  }
+  
+  .service-card h3,
+  .card h3 {
+    font-size: 1rem;
+  }
+  
+  .dropdown-menu {
+    max-height: 200px;
+  }
+  
+  footer .flex-col.lg\:flex-row {
+    gap: 1.5rem;
+  }
+}
+
+/* Small (481-640px) - Large phones */
+@media (min-width: 481px) and (max-width: 640px) {
+  .hero-title {
+    font-size: clamp(1.75rem, 9vw, 2.5rem) !important;
+    line-height: 1.1;
+  }
+  
+  .logo-gmg {
+    height: 90px !important;
+  }
+  
+  .section-spacing {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+}
+
+/* Mobile (max 768px) - Phones */
 @media (max-width: 768px) {
   .bg-hero {
     transform: none !important;
-    height: 100vh !important;
-    min-height: 600px;
+    height: auto !important;
+    min-height: 100vh;
+    min-height: 100svh;
+    background-attachment: scroll;
   }
   
   .logo-gmg {
@@ -677,21 +773,15 @@ button[type="submit"]:hover {
     padding-right: 1rem;
   }
   
-  .section-spacing {
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-  }
-  
   .btn-primary,
   .btn-secondary {
     padding: 0.75rem 1.5rem;
     font-size: 0.95rem;
   }
   
-  /* Reduce hover lift on mobile for better touch interaction */
   .service-card:hover,
   .card:hover {
-    transform: translateY(-3px);
+    transform: translateY(-2px);
   }
   
   .container-max {
@@ -709,24 +799,96 @@ button[type="submit"]:hover {
   h3 {
     font-size: clamp(1.125rem, 5vw, 1.25rem);
   }
+  
+  .grid-services {
+    gap: 1rem;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  textarea {
+    font-size: 16px;
+  }
+  
+  .dropdown-trigger {
+    font-size: 16px;
+    min-height: 48px;
+  }
+  
+  .dropdown-menu li {
+    padding: 0.875rem 1rem;
+    min-height: 44px;
+  }
+  
+  .mobile-menu-link {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+  
+  footer {
+    text-align: center;
+  }
+  
+  footer .flex.items-center.gap-4 {
+    justify-content: center;
+  }
+  
+  footer .text-left {
+    text-align: center;
+  }
 }
 
-@media (max-width: 640px) {
+/* Tablet Portrait (768-1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .section-padding {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  
+  .section-spacing {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+  
   .hero-title {
-    font-size: clamp(1.75rem, 9vw, 2.5rem) !important;
-    line-height: 1.1;
+    font-size: clamp(2.5rem, 6vw, 4rem) !important;
+  }
+  
+  .logo-gmg {
+    height: 130px !important;
+  }
+  
+  .grid-services {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+  
+  .grid-process {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Tablet Landscape / Small Desktop (1024px+) */
+@media (min-width: 1024px) {
+  .grid-services {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .grid-process {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
 /* Prevent horizontal scroll on all screen sizes */
-* {
-  max-width: 100%;
-}
-
-img {
-  height: auto;
-}
-
 .section-bg::before {
   width: 100%;
+}
+
+/* Ensure hamburger is hidden on desktop */
+@media (min-width: 768px) {
+  #mobile-menu-button {
+    display: none !important;
+  }
 }

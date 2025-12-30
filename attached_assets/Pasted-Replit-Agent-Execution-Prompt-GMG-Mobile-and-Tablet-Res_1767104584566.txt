@@ -1,0 +1,165 @@
+Replit Agent Execution Prompt - GMG Mobile and Tablet Responsiveness Finalisation (iPhone, Android, iPad)
+
+Objective
+Make the Greene Mechanical Group site production-grade across all key breakpoints:
+
+* iPhone (360–430px)
+* Android (360–480px)
+* Large phones (480–640px)
+* iPad / tablets (768–1024px, portrait + landscape)
+* Desktop (1024px+)
+  This is a responsive QA and hardening pass, not a redesign.
+
+Rules
+
+* Preserve existing design language (dark + gold).
+* No new sections. No layout rework beyond responsive adjustments.
+* Do not introduce horizontal scrolling at any breakpoint.
+* Ensure touch targets, spacing, and readability meet modern standards.
+
+Step 1 - Add explicit responsive breakpoints and global guardrails
+
+1. Confirm viewport meta tag exists in index.html:
+
+* <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+2. Add global CSS guardrails (main.css or equivalent):
+
+* Ensure all media elements are constrained:
+  img, video, canvas, svg { max-width: 100%; height: auto; }
+* Prevent overflow:
+  html, body { overflow-x: hidden; }
+* Ensure all sections respect viewport width:
+  .container (or equivalent wrapper) uses:
+  width: 100%;
+  max-width: [existing max];
+  padding-left/right that scales per breakpoint.
+
+Step 2 - Fix header and navigation on mobile
+Goal: On mobile, header must be compact, usable, and not crowded.
+
+Actions:
+
+* Confirm there is a mobile menu/hamburger. If absent or inadequate:
+
+  * Implement a simple hamburger toggle for nav links.
+  * When open, show links in a vertical stack with clear spacing.
+  * Lock background scroll when menu is open.
+  * Close menu on link click and on Escape.
+* Ensure header elements do not wrap awkwardly:
+
+  * Logo left
+  * Hamburger right
+  * If Call Now button must exist on mobile, either:
+
+    * Place it inside the mobile menu as the first CTA, or
+    * Keep it in header but reduce height and padding.
+* Touch targets:
+
+  * All tappable elements minimum 44px height.
+
+Acceptance:
+
+* At 375px width (iPhone), no wrapping mess, no clipped buttons, no overlap.
+* Nav is fully reachable and readable.
+
+Step 3 - Hero section responsiveness
+Actions:
+
+* Ensure hero text scales cleanly:
+
+  * Use clamp() for headline and subhead sizes.
+  * Reduce line-length on mobile.
+* Ensure hero CTAs stack on mobile:
+
+  * Buttons full width (or 2-up if there is room), with proper spacing.
+* Ensure any hero background image/video is:
+
+  * Centered
+  * Not cropped awkwardly
+  * Not causing layout shift
+
+Acceptance:
+
+* On iPhone, hero headline readable, buttons tappable, no text overflow.
+
+Step 4 - Services and Sectors card grid responsiveness
+Actions:
+
+* Convert card layouts to responsive grid rules:
+
+  * Mobile: 1 column
+  * Tablet portrait: 2 columns
+  * Tablet landscape / small desktop: 3 columns (if it fits without squashing)
+* Standardise:
+
+  * Card padding
+  * Card height behavior (avoid uneven spacing)
+  * Title and body typography scaling with clamp()
+
+Acceptance:
+
+* Cards are not cramped on mobile and do not appear “tiny” on iPad.
+
+Step 5 - Contact section (form + contact info) on mobile/tablet
+Actions:
+
+* Ensure the contact section collapses into a single column on small screens:
+
+  * Contact info above form, or form above contact info (choose what reads best).
+* Ensure the custom service dropdown works on touch:
+
+  * Tap opens reliably
+  * Scroll inside menu works without locking the whole page
+  * Menu doesn’t render off-screen (add positioning logic if needed).
+* Inputs:
+
+  * Full width on mobile
+  * Adequate vertical spacing
+  * Font size >= 16px to prevent iOS zoom-on-focus
+
+Acceptance:
+
+* On iPhone: no off-screen fields, no tiny dropdown, no unreadable option list.
+* On iPad: two-column layout may return if it remains comfortable (>= 900px width).
+
+Step 6 - Footer responsiveness
+Actions:
+
+* Convert footer to stacked layout on mobile:
+
+  * Logo and description
+  * Contact links
+  * Quick links
+* Ensure spacing and alignment is clean, with no compressed columns.
+
+Acceptance:
+
+* Footer reads naturally on mobile without dense multi-column squeezing.
+
+Step 7 - Device QA checklist and hard fixes
+You must test using DevTools responsive mode for these exact widths:
+
+* 360 x 800 (Android small)
+* 375 x 812 (iPhone)
+* 390 x 844 (iPhone 12/13/14)
+* 430 x 932 (iPhone Max)
+* 768 x 1024 (iPad portrait)
+* 1024 x 768 (iPad landscape)
+
+Fix the following if present:
+
+* Any horizontal scroll: identify the offending element and constrain it.
+* Any clipped dropdown/menu: adjust positioning and max-height.
+* Any text overflow: apply wrap rules and clamp sizing.
+* Any tap targets too small: increase padding/height.
+* Any excessive vertical whitespace on mobile: tighten section padding at <= 480px.
+
+Deliverables
+
+* Implement responsive CSS adjustments and any small JS tweaks required (mobile menu behavior, dropdown positioning).
+* Confirm no breakpoint has horizontal scroll.
+* Confirm contact form remains Netlify-ready and functional.
+* Provide a short summary of what was changed (files touched, key responsive improvements).
+
+Proceed to implement now in the codebase.
