@@ -1,0 +1,150 @@
+Replit Agent Execution Prompt - Eliminate Mobile Scroll Blocking on Initial Load (Must Scroll Immediately)
+
+Objective
+On mobile (iPhone/Android), the page is still not scrollable immediately after first render. This is a hard failure. Fix it so users can scroll instantly on page load, regardless of animations, effects, or asset loading state.
+
+Non-Negotiables
+
+* The page MUST scroll immediately on first touch after load.
+* No overlay, animation layer, or effect is allowed to capture touch/scroll input.
+* Only lock scroll when the mobile menu drawer is open. Never otherwise.
+* Preserve the current look and feel (dark + gold). This is a behavior/performance fix.
+
+Step 1 - Reproduce and identify the blocker
+
+1. Use DevTools mobile emulation (iPhone 390px).
+2. Load the site and immediately attempt to scroll.
+3. Determine what is blocking:
+
+* A fixed overlay capturing touches
+* A background effect layer with pointer events enabled
+* A loading gate (isLoading, intro animation, initialisation sequence)
+* A scroll lock style being applied on body/html
+* A JS listener calling preventDefault on touchmove / wheel
+* A fixed positioning / transform on a parent that breaks scrolling
+
+You must confirm the specific cause by inspecting the DOM: hover over layers and check which element is on top during the “can’t scroll” window.
+
+Step 2 - Remove all page-load scroll locks (strict audit)
+Search the codebase for scroll locking and remove it unless menu is open:
+
+* document.body.style.overflow = "hidden"
+* document.documentElement.style.overflow = "hidden"
+* overflow: hidden on html/body in CSS (only acceptable inside “menu open” state)
+* position: fixed on body/html during initialisation
+* any “scroll lock” utility or hook
+* any listeners:
+
+  * window.addEventListener("touchmove", ..., { passive: false })
+  * e.preventDefault() on touchmove/wheel/scroll
+  * global “gesture” handlers
+
+Rules:
+
+* No preventDefault on touchmove anywhere except inside the open mobile drawer (and even then, do it via body overflow lock, not event hijacking).
+* Ensure touch listeners are PASSIVE by default on mobile.
+
+Step 3 - Ensure effect/animation layers cannot capture touches
+This is the most common culprit.
+
+1. Identify all decorative layers:
+
+* hero background overlays
+* glow layers
+* animated gradient canvases
+* parallax layers
+* spotlight cursor layers
+* any fixed “effects” wrapper
+
+2. Apply:
+
+* pointer-events: none;
+* touch-action: manipulation; (or auto) on non-interactive layers
+* Ensure their z-index is below interactive content. Effects should never sit above the page content layer.
+
+Implementation:
+
+* Add a shared class (eg .fx-layer, .decorative-layer) and apply:
+  pointer-events: none !important;
+  user-select: none;
+* If effects are inserted via JS, ensure the created element gets that class.
+
+3. If there is a canvas/WebGL layer:
+
+* Set pointer-events: none
+* Ensure it is not reflowing or resizing in a way that blocks main thread.
+
+Step 4 - Remove “intro animation gating” patterns on mobile
+If the site waits for animations to complete before enabling interactions:
+
+* Remove that logic completely.
+* Animations can run, but must never block scrolling.
+
+Specifically:
+
+* Remove any initial “loading overlay” that sits on top of content.
+* If there is an opacity/transform intro that covers the whole page, ensure it does not intercept touch:
+
+  * pointer-events: none
+  * Or remove on mobile entirely.
+
+Step 5 - Mobile performance gating (to reduce main-thread lock)
+Even if scroll isn’t “locked”, heavy effects can freeze the UI thread on iOS so scrolling feels dead.
+Implement mobile gating to reduce CPU/GPU load on first render:
+
+1. Add a global “mobile-lite” mode:
+
+* Detect via CSS media query:
+  @media (max-width: 768px)
+* In mobile-lite:
+
+  * Disable backdrop-filter and heavy blur
+  * Reduce large glow shadows
+  * Disable any continuous animations that run on scroll or mousemove
+  * Lower animation durations or set them to simple fades
+
+2. Defer non-critical animations until after the first frame:
+
+* Use requestAnimationFrame + setTimeout to start heavy effects after initial render:
+
+  * Start minimal styles immediately
+  * Start heavy animations after 500–1000ms OR after first user interaction
+    Do NOT block scrolling while waiting.
+
+3. Respect reduced motion:
+
+* @media (prefers-reduced-motion: reduce) { disable animations; }
+
+Step 6 - Regression guardrails for the mobile menu
+
+* Confirm that when menu is closed:
+
+  * html/body overflow is not hidden
+  * no fixed body positioning remains
+* When menu opens:
+
+  * scroll locks correctly
+* When menu closes:
+
+  * restore previous scroll state
+
+Step 7 - Acceptance testing (must pass)
+Test these scenarios:
+
+1. Hard refresh on mobile width → immediate scroll works.
+2. Scroll rapidly up/down on first 3 seconds → never dead.
+3. Open and close menu → scroll returns instantly.
+4. No horizontal scrolling.
+5. iPhone Safari behavior: inputs do not cause zoom issues (keep 16px font).
+
+Deliverables
+
+* Implement the fix in code (CSS + JS as needed).
+* Provide a short summary:
+
+  * Root cause found
+  * Files changed
+  * What was removed/changed to guarantee immediate scrolling
+* Confirm “scroll on load” passes on iPhone 390px and Android 360px emulation.
+
+Implement now.

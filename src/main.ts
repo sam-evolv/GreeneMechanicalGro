@@ -11,6 +11,7 @@ class GMGWebsite {
   }
 
   private init(): void {
+    this.ensureScrollEnabled()
     this.populateContactInfo()
     this.updateSchemaOrg()
     this.setupStickyHeader()
@@ -20,6 +21,14 @@ class GMGWebsite {
     this.setupCustomDropdown()
     this.setupFormHandler()
     this.setupMobileMenu()
+  }
+
+  private ensureScrollEnabled(): void {
+    document.body.classList.remove('menu-open')
+    document.body.style.overflow = ''
+    document.body.style.position = ''
+    document.body.style.top = ''
+    document.documentElement.style.overflow = ''
   }
 
   private updateSchemaOrg(): void {
