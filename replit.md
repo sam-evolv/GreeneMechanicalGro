@@ -15,6 +15,21 @@ The site is fully built, mobile-optimized, and ready for deployment to Netlify.
 
 ## Recent Changes (Dec 30, 2025)
 
+### Mobile Menu UX Redesign (Dec 30, 2025)
+1. **Slide-in Drawer**: Replaced dropdown menu with premium slide-in drawer from right
+   - Fixed positioning: `height: 100dvh`, `width: min(85vw, 320px)`
+   - Gold left border accent
+   - Header with logo and close button
+   - Smooth slide animation with backdrop
+2. **Backdrop Overlay**: Semi-transparent backdrop with click-to-close
+3. **iPhone Safe Area**: Proper padding for notch (`env(safe-area-inset-*)`)
+4. **Mobile Performance**:
+   - Disabled `backdrop-filter` blur on mobile (expensive on iOS Safari)
+   - Disabled card glow effects on mobile
+   - Added `prefers-reduced-motion` support
+5. **Scroll Lock**: Only locked when menu is open, no blocking on page load
+6. **Accessibility**: Focus trap, ESC key close, focus return to hamburger
+
 ### Header Nav Centering (Dec 30, 2025)
 1. **Centered Navigation**: Nav links (Services, Sectors, About, Contact) now centered between logo and CTA
 2. **Single Header CTA**: Removed "Request a Quote" from header, only "Call Now" remains (gold solid button)
