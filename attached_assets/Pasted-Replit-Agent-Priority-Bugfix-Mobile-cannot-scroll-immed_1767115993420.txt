@@ -1,0 +1,118 @@
+Replit Agent - Priority Bugfix: Mobile cannot scroll immediately on first load (3–4s delay)
+
+Business impact
+This is a launch-blocking UX defect. If a user lands and the page does not scroll instantly, they assume the site is broken. Fix must be deterministic on iOS Safari + Android Chrome.
+
+Success criteria (non-negotiable)
+1) First touch scroll works immediately on page load (0s wait) on iPhone Safari.
+2) Same on Android Chrome.
+3) No regression: menu open can still lock scroll; menu closed must never lock scroll.
+
+Phase 1: Find the true blocker (do not skip)
+We need to identify exactly what is preventing scroll during the first 3–4 seconds.
+
+A) Search codebase for any scroll/touch hijacking
+Search for:
+- "preventDefault"
+- "touchmove"
+- "wheel"
+- "gesture"
+- "lenis"
+- "smooth scroll"
+- "overflow = 'hidden'"
+- "position = 'fixed'"
+- "scroll-lock"
+- "lockScroll"
+- "no-scroll"
+- "menu-open"
+If any preventDefault handlers exist on touchmove/wheel at document/window level, remove them entirely (except if strictly scoped to menu open state, and even then prefer overflow lock, not preventDefault).
+
+B) Add a temporary runtime probe to identify which element is eating the scroll
+In src/main.ts (or the main entry), add a DEBUG block that runs only on mobile widths and logs the element under the finger during the "can't scroll" window.
+
+Add this (temporary, to find culprit):
+- on touchstart, call document.elementFromPoint(touch.clientX, touch.clientY)
+- console.log tagName, className, id
+- also log computed styles: position, overflow, pointer-events, touch-action, z-index
+This will reveal if an overlay, hero layer, animation wrapper, or body lock is the real cause.
+
+Also log:
+- getComputedStyle(document.body).overflow
+- getComputedStyle(document.documentElement).overflow
+- body classList (menu-open etc.)
+Log on:
+- DOMContentLoaded
+- first touchstart
+- after 500ms, 1500ms, 3000ms (setTimeout checkpoints)
+
+C) Confirm whether the page is actually scrollable but frozen
+If scroll does not move, check:
+- is the main thread blocked (heavy JS loop, large effect initialisation)?
+- is there an element covering viewport capturing touches?
+The probe above will differentiate these two.
+
+Phase 2: Apply the correct fix based on root cause
+
+Fix path 1 (most likely): An overlay/layer is capturing touch
+If the probe identifies a non-interactive overlay (hero overlay, fx layer, animation container) as top element:
+1) Ensure it has:
+   pointer-events: none !important;
+2) Ensure its pseudo-elements also cannot capture touches:
+   ::before, ::after { pointer-events: none !important; }
+3) Ensure no touch-action: none is applied globally or on wrappers that contain content.
+   touch-action: none can break scroll if applied on a parent in Safari. Remove it from any large container.
+
+Implement a defensive rule:
+- For all decorative layers (hero overlay, background glows, film grain, etc.), assign a class .fx-layer
+- .fx-layer and descendants must be pointer-events:none
+- BUT do NOT apply touch-action:none to large wrappers. If you set anything, use touch-action:auto.
+
+Fix path 2: Body or html is locked for a few seconds due to init/animation
+If logs show body/html overflow is hidden or body is position:fixed temporarily:
+1) Identify where it is set.
+2) Remove that behaviour entirely on initial load.
+3) Scroll lock must exist only in menu open state, via a single function.
+
+Refactor:
+- create a single scroll lock utility with 2 functions:
+  lockScroll() and unlockScroll()
+- lockScroll only called when menu opens
+- unlockScroll called when menu closes
+- nowhere else touches body/html overflow/position
+
+Also remove any "intro" gate that delays interactivity until animations complete.
+
+Fix path 3: Main thread is blocked by heavy effect initialisation (scroll “dead” but no overlay)
+If elementFromPoint returns real content (not overlay) but scroll still does nothing, the UI thread is likely blocked.
+
+Actions:
+1) Defer heavy work:
+   - Move any effect initialisation (cursor glow, particles, parallax, reveal scanning, intersection observers setup, layout measurements) into requestIdleCallback (with fallback setTimeout) OR setTimeout 0 after first paint.
+2) Ensure first paint is minimal:
+   - Do NOT run expensive loops at startup
+   - Do NOT query/layout-measure large DOM repeatedly on load
+3) Mobile downgrade:
+   - Disable backdrop-filter and heavy blur on mobile
+   - Disable continuous animations on mobile
+   - Any “reveal” system must not set opacity 0 and then animate in later on mobile. On mobile: render immediately (opacity:1, no transform).
+
+Phase 3: Hardening and removal of debug
+Once fixed:
+- Remove the DEBUG probe logs entirely.
+- Confirm the fix works without devtools.
+
+Verification steps (must be done)
+1) Use iPhone Safari real device:
+   - Hard refresh
+   - Immediately swipe up/down: must scroll instantly
+2) Android Chrome:
+   - same test
+3) Menu test:
+   - open menu: page behind should not scroll
+   - close menu: immediate scroll restored
+
+Deliverable
+- Commit message: "Fix mobile immediate scroll by removing scroll blockers on load"
+- Short note in README or VERIFICATION.md describing root cause and fix.
+
+Implement now. Do not guess. Use probe to find culprit, then fix precisely.

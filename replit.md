@@ -15,6 +15,18 @@ The site is fully built, mobile-optimized, and ready for deployment to Netlify.
 
 ## Recent Changes (Dec 30, 2025)
 
+### Mobile Scroll Fix (Dec 30, 2025)
+**Root cause**: `touch-action: none` on decorative layers (hero overlay, fx-layer) was blocking scroll panning on iOS Safari, even though `pointer-events: none` was set. These are independent CSS properties.
+
+**Fix applied**:
+1. Removed `touch-action: none` from `.fx-layer` and `.hero-overlay`
+2. Added `viewport-fit=cover` meta tag to eliminate Safari white bars
+3. Added safe-area padding for edge-to-edge display on notched devices
+4. Made reveal elements immediately visible on mobile (no animation delay)
+5. `ensureScrollEnabled()` runs on page init to clear any stale locks
+
+**Files changed**: `index.html`, `src/styles.css`, `src/main.ts`
+
 ### Mobile Menu Premium Upgrade (Dec 30, 2025)
 1. **Premium Slide-in Drawer**:
    - Tighter width: `min(80vw, 300px)` for better proportions

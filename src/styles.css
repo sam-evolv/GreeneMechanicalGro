@@ -53,11 +53,11 @@
     padding-right: env(safe-area-inset-right);
   }
   
-  /* Decorative/effect layer - never blocks touch events */
-  .fx-layer {
+  /* Decorative/effect layer - never blocks touch or scroll */
+  .fx-layer,
+  .fx-layer * {
     pointer-events: none !important;
     user-select: none !important;
-    touch-action: none !important;
   }
   
   img, video, canvas, svg {
@@ -297,7 +297,6 @@
   background: radial-gradient(circle at 50% 30%, rgba(40, 146, 229, 0.15) 0%, transparent 70%);
   animation: shimmer 12s ease-in-out infinite alternate;
   pointer-events: none !important;
-  touch-action: none;
   z-index: 1;
 }
 
