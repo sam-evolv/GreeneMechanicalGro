@@ -1,0 +1,197 @@
+Objective: Eliminate mobile scroll blocking immediately on load, remove Safari white bars (top & bottom), and harden mobile UX to production standard across iOS and Android.
+
+Context
+
+This site currently:
+
+Blocks scroll on mobile for ~5 seconds due to animations/effect layers
+
+Feels broken on first interaction (unacceptable UX risk)
+
+Shows white bars at top and bottom on iOS Safari (viewport misconfiguration)
+
+Uses visual effects that interfere with touch input during initial render
+
+This must be fixed at the platform level, not cosmetically.
+
+HARD REQUIREMENTS (Non-Negotiable)
+
+Scrolling must be available immediately on first touch
+
+No animation, image, font, or effect may block scroll
+
+Scroll must work even if assets are still loading
+
+The site must feel native and fluid from millisecond one
+
+No white bars on iOS Safari
+
+Page must extend edge-to-edge (top and bottom)
+
+Correct viewport, safe-area, and background handling required
+
+No default body margins or background bleed
+
+Decorative layers must never capture touch
+
+Hero overlays, gradients, animations must be non-interactive
+
+Only real UI elements may receive pointer events
+
+Scroll locking is allowed ONLY when mobile menu is open
+
+Never on page load
+
+Never due to animations
+
+Never due to JS race conditions
+
+IMPLEMENTATION TASKS
+1. Fix Viewport and Safari White Bars
+
+Update <head> in index.html:
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+
+Apply full bleed layout:
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: #0B0D10; /* site background */
+  overflow-x: hidden;
+}
+
+
+Ensure safe-area handling:
+
+body {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+2. Guarantee Scroll on First Render (Critical Fix)
+
+Add to global CSS:
+
+html {
+  -webkit-overflow-scrolling: touch;
+}
+
+body {
+  overflow-y: auto !important;
+  touch-action: pan-y;
+  position: relative !important;
+}
+
+
+Create a universal non-interactive layer class:
+
+.fx-layer {
+  pointer-events: none !important;
+}
+
+
+Apply .fx-layer to:
+
+Hero overlays
+
+Background gradients
+
+Visual effect containers
+
+Any animated decorative layer
+
+3. Disable Heavy Animations on Mobile (Performance Gate)
+
+On screens < 768px:
+
+Disable hero animations
+
+Disable parallax
+
+Disable delayed opacity or transform entrances
+
+@media (max-width: 768px) {
+  .hero-animation,
+  .parallax,
+  .fade-in,
+  .motion-layer {
+    animation: none !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+
+Respect reduced motion globally:
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+4. Force Scroll Enablement on JS Init
+
+In main.ts (or equivalent entry file), add first-line execution:
+
+function ensureScrollEnabled() {
+  document.body.classList.remove('menu-open');
+  document.body.style.overflow = 'auto';
+  document.body.style.position = 'relative';
+  document.body.style.top = '0';
+}
+
+document.addEventListener('DOMContentLoaded', ensureScrollEnabled);
+window.addEventListener('load', ensureScrollEnabled);
+
+
+This hard overrides any accidental scroll lock caused by race conditions.
+
+5. Menu Scroll Lock – Scope It Correctly
+
+Ensure scroll locking exists only here:
+
+function openMenu() {
+  document.body.style.overflow = 'hidden';
+}
+
+function closeMenu() {
+  document.body.style.overflow = 'auto';
+}
+
+
+No other JS may touch body.style.overflow.
+
+FINAL VALIDATION CHECKLIST (Must Pass)
+
+iPhone Safari: scroll works instantly on page load
+
+Android Chrome: scroll works instantly on page load
+
+No white bars top or bottom on iOS
+
+Page feels responsive even while images load
+
+Scroll lock only activates when menu is open
+
+No decorative layer blocks touch
+
+Lighthouse Mobile UX score improves
+
+DELIVERY EXPECTATION
+
+Implement all changes cleanly, test on:
+
+iPhone Safari
+
+Android Chrome
+
+Desktop responsive mode
+
+Do not ship partial fixes. This is a production-critical UX issue.

@@ -25,10 +25,12 @@ class GMGWebsite {
 
   private ensureScrollEnabled(): void {
     document.body.classList.remove('menu-open')
-    document.body.style.overflow = ''
-    document.body.style.position = ''
-    document.body.style.top = ''
+    document.body.style.overflow = 'auto'
+    document.body.style.overflowY = 'auto'
+    document.body.style.position = 'relative'
+    document.body.style.top = '0'
     document.documentElement.style.overflow = ''
+    document.documentElement.style.overflowY = ''
   }
 
   private updateSchemaOrg(): void {
