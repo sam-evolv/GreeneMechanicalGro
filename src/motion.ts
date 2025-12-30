@@ -1,6 +1,24 @@
 export class MotionSystem {
+  private isMobile = window.innerWidth < 768
+
   constructor() {
-    this.init()
+    if (this.isMobile) {
+      this.deferredInit()
+    } else {
+      this.init()
+    }
+  }
+
+  private deferredInit(): void {
+    if ('requestIdleCallback' in window) {
+      (window as any).requestIdleCallback(() => this.initMobile(), { timeout: 2000 })
+    } else {
+      setTimeout(() => this.initMobile(), 1000)
+    }
+  }
+
+  private initMobile(): void {
+    this.setupSectionEntryAnimations()
   }
 
   private init(): void {

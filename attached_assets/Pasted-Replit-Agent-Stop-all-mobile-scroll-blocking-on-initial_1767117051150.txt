@@ -1,0 +1,106 @@
+Replit Agent - Stop all mobile scroll blocking on initial load (make scroll available instantly)
+
+Goal
+Mobile must scroll instantly on first touch after load. Zero seconds delay. No exceptions. This must hold on iPhone Safari and Android Chrome.
+
+Non-negotiable rules
+- Menu closed: scrolling must never be locked.
+- Menu open: you may lock scroll.
+- No decorative layer is allowed to capture touch or pan gestures at any time.
+- Remove any “intro gating” that delays interaction until animations finish.
+
+Part A - Identify the actual blocker (do not skip)
+1) Add a temporary touch probe in src/main.ts (or the app entry) to print what element is under the finger during the “cannot scroll” window.
+
+Add this near startup (temporary):
+- On first touchstart, run elementFromPoint(x,y)
+- Log: tagName, id, className
+- Log computed styles: position, zIndex, pointerEvents, touchAction, overflow
+- Also log: body overflow, html overflow, body position
+- Log at t=0ms, 250ms, 1000ms, 2500ms after DOMContentLoaded.
+
+This tells us whether it is:
+A) overlay capturing touch
+B) scroll lock on body/html
+C) main thread freeze
+
+Part B - Fix path 1: overlay capturing touch (most common)
+If elementFromPoint returns a hero overlay, fx layer, backdrop, or pseudo layer:
+1) Apply a hard global rule for all decorative layers:
+- pointer-events: none !important;
+- touch-action: auto !important;
+
+2) Also disable pointer events on pseudo elements:
+- .fx-layer::before, .fx-layer::after { pointer-events: none !important; }
+
+3) Ensure these layers are not above content:
+- lower z-index below header/content
+- do not place them inside a fixed full-screen wrapper that sits above everything
+
+Part C - Fix path 2: scroll lock during init (second most common)
+If logs show overflow hidden or body is fixed for a few seconds:
+1) Remove every scroll-lock call from startup code.
+2) Create exactly one scroll lock implementation and only use it for the mobile menu.
+
+Implement a single source of truth:
+- When menu opens: document.body.classList.add("menu-open")
+- When menu closes: document.body.classList.remove("menu-open")
+No other code is allowed to touch body/html overflow or position.
+
+CSS:
+body.menu-open { overflow: hidden; }
+
+Also, delete any “ensureScrollEnabled after load” hacks. They are masking the real issue.
+
+Part D - Fix path 3: main thread freeze (scroll feels dead, no overlay found)
+If elementFromPoint returns normal content but scroll still does nothing, you are blocking the UI thread on load.
+
+Actions:
+1) Find any heavy startup work:
+- large DOM queries and repeated layout reads
+- animation initialisers
+- intersection observer loops
+- blur/backdrop-filter heavy layers
+- any requestAnimationFrame loops starting immediately
+
+2) Defer heavy work until after first interaction or idle time:
+- Use requestIdleCallback (fallback setTimeout 1000) to initialise heavy effects
+- On mobile, disable expensive effects entirely
+
+Mobile gating:
+@media (max-width: 768px) {
+  * { scroll-behavior: auto; }
+  .heavy-blur, .backdrop, .parallax, .cinematic-filter { display: none !important; }
+  .reveal, .fade-in, .slide-up { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
+Part E - Remove a common killer: full-height wrappers that block scroll
+Audit CSS for any container using:
+- height: 100vh
+- position: fixed
+- overflow: hidden
+applied to wrappers like #root, main, hero container, page container.
+
+On mobile, replace height: 100vh with:
+min-height: 100svh;
+height: auto;
+
+And ensure the scrolling container is the document:
+html, body { height: auto; overflow-y: auto; }
+
+Part F - Verification (must pass)
+1) iPhone Safari real device:
+- hard refresh
+- immediately swipe up: page must move instantly
+2) Android Chrome:
+- same
+3) Open menu:
+- page behind does not scroll
+4) Close menu:
+- scroll instantly restored
+
+Deliverables
+- Remove the probe logs after confirming the culprit and fix.
+- Summarise root cause in a short comment in VERIFICATION.md:
+  "Mobile scroll delay was caused by X; fixed by Y; verified on iPhone Safari and Android Chrome."
+Implement now. Do not guess. Use the probe to identify the blocker and eliminate it.

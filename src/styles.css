@@ -937,6 +937,17 @@ body.menu-open {
 
 /* Mobile (max 768px) - Phones */
 @media (max-width: 768px) {
+  /* Force scroll availability on mobile */
+  html {
+    scroll-behavior: auto !important;
+  }
+  
+  html, body {
+    height: auto !important;
+    overflow-y: auto !important;
+    position: relative !important;
+  }
+  
   .bg-hero {
     transform: none !important;
     height: auto !important;
