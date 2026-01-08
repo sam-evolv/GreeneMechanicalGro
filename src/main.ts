@@ -194,6 +194,7 @@ class GMGWebsite {
       isOpen = true
       trigger.setAttribute('aria-expanded', 'true')
       menu.classList.add('open')
+      dropdown.classList.add('is-open')
       focusedIndex = 0
       setTimeout(() => {
         focusOption(0)
@@ -204,6 +205,7 @@ class GMGWebsite {
       isOpen = false
       trigger.setAttribute('aria-expanded', 'false')
       menu.classList.remove('open')
+      dropdown.classList.remove('is-open')
       optionElements.forEach(opt => opt.classList.remove('focused'))
       focusedIndex = -1
       if (returnFocus) trigger.focus()

@@ -15,6 +15,12 @@ The site is fully built, mobile-optimized, and ready for deployment to Netlify.
 
 ## Recent Changes (Dec 30, 2025)
 
+### Form & Thank-You Page Fixes (Jan 8, 2026)
+1. **Form dropdown tap issue on mobile**: Dropdown menu was capturing taps meant for the textarea below. Fixed by adding `visibility: hidden` and `pointer-events: none` to closed dropdown menu, only enabling them when `.open` class is applied.
+2. **Thank-you page logo not rendering**: The static thank-you.html referenced `/assets/logo-gmg-transparent.png` which doesn't exist in Vite's hashed output. Copied the logo to `public/assets/` so it's available at that path.
+
+**Files changed**: `src/styles.css`, `src/main.ts`, `public/assets/logo-gmg-transparent.png`
+
 ### Mobile Scroll Fix (Dec 30, 2025)
 **Root causes identified**:
 1. `touch-action: none` on decorative layers blocking scroll panning
