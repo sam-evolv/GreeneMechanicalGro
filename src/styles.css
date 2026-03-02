@@ -249,7 +249,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at 50% 0%, rgba(40, 146, 229, 0.05) 0%, transparent 50%);
+    background: radial-gradient(circle at 50% 0%, rgba(212, 177, 95, 0.04) 0%, transparent 50%);
     pointer-events: none;
   }
 
@@ -294,7 +294,7 @@
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 30%, rgba(40, 146, 229, 0.15) 0%, transparent 70%);
+  background: radial-gradient(circle at 50% 30%, rgba(212, 177, 95, 0.1) 0%, transparent 70%);
   animation: shimmer 12s ease-in-out infinite alternate;
   pointer-events: none !important;
   z-index: 1;
@@ -321,24 +321,24 @@
 
 @keyframes flame-glow {
   0%, 100% {
-    filter: drop-shadow(0 0 20px rgba(212, 177, 95, 0.3));
+    filter: drop-shadow(0 0 15px rgba(212, 177, 95, 0.3));
   }
   50% {
-    filter: drop-shadow(0 0 30px rgba(212, 177, 95, 0.5));
+    filter: drop-shadow(0 0 25px rgba(240, 212, 136, 0.5));
   }
 }
 
 @keyframes flameGlow {
   0% {
-    filter: drop-shadow(0 0 6px rgba(40, 146, 229, 0.4));
+    filter: drop-shadow(0 0 6px rgba(212, 177, 95, 0.4));
     opacity: 0.9;
   }
   50% {
-    filter: drop-shadow(0 0 12px rgba(40, 146, 229, 0.7));
+    filter: drop-shadow(0 0 12px rgba(240, 212, 136, 0.7));
     opacity: 1;
   }
   100% {
-    filter: drop-shadow(0 0 6px rgba(40, 146, 229, 0.4));
+    filter: drop-shadow(0 0 6px rgba(212, 177, 95, 0.4));
     opacity: 0.9;
   }
 }
@@ -352,6 +352,7 @@
   }
 }
 
+/* Legacy .logo-gmg kept for reference, replaced by hero-emblem */
 .logo-gmg {
   width: auto;
   height: 175px;
@@ -359,15 +360,84 @@
   will-change: filter, opacity, transform;
 }
 
+/* New hero emblem styles */
+.hero-emblem {
+  display: flex;
+  justify-content: center;
+}
+
+.hero-emblem-svg {
+  height: 210px;
+  width: auto;
+  filter: drop-shadow(0 0 20px rgba(212, 177, 95, 0.25));
+  animation: emblemGlow 4s ease-in-out infinite alternate;
+}
+
+@keyframes emblemGlow {
+  0% {
+    filter: drop-shadow(0 0 15px rgba(212, 177, 95, 0.2));
+  }
+  100% {
+    filter: drop-shadow(0 0 30px rgba(240, 212, 136, 0.45));
+  }
+}
+
+/* Breathing animation for the central G letter */
+@keyframes gBreathe {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.88;
+    filter: drop-shadow(0 0 4px rgba(212, 177, 95, 0.2));
+  }
+  50% {
+    transform: scale(1.04);
+    opacity: 1;
+    filter: drop-shadow(0 0 16px rgba(240, 212, 136, 0.55));
+  }
+}
+
+.hero-g-breathe {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: gBreathe 4s ease-in-out infinite;
+  will-change: transform, filter, opacity;
+}
+
+/* Nav logo emblem */
+.nav-logo-emblem {
+  filter: drop-shadow(0 0 4px rgba(212, 177, 95, 0.2));
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.nav-logo-emblem:hover {
+  filter: drop-shadow(0 0 10px rgba(212, 177, 95, 0.45));
+  transform: scale(1.03);
+}
+
 @media (max-width: 1024px) {
-  .logo-gmg {
-    height: 122px;
+  .hero-emblem-svg {
+    height: 170px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-emblem-svg {
+    height: 140px;
   }
 }
 
 @media (max-width: 640px) {
+  .hero-emblem-svg {
+    height: 115px;
+  }
   .logo-gmg {
     height: 87px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-emblem-svg {
+    height: 100px;
   }
 }
 
@@ -1047,10 +1117,22 @@ body.menu-open {
     display: none;
   }
   
-  .flame-animate {
+  .flame-animate,
+  .nav-logo-emblem {
     animation: none;
   }
-  
+
+  /* Simplify hero emblem glow on mobile */
+  .hero-emblem-svg {
+    animation: none;
+    filter: drop-shadow(0 0 12px rgba(212, 177, 95, 0.25));
+  }
+
+  /* Keep breathing G but gentler on mobile */
+  .hero-g-breathe {
+    animation: gBreathe 5s ease-in-out infinite;
+  }
+
   /* Disable hero overlay animation on mobile for performance */
   .hero-overlay {
     animation: none;

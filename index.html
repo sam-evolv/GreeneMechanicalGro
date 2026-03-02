@@ -69,7 +69,7 @@
       <div class="flex items-center justify-between relative">
         <!-- Logo (left) -->
         <a href="#" class="flex items-center gap-3 group flex-shrink-0">
-          <img src="/assets/logo-gmg-transparent.png" alt="GMG Logo" class="h-[70px] md:h-[105px] w-auto flame-animate">
+          <img src="/assets/logo-gmg-emblem.svg" alt="GMG Logo" class="h-[48px] md:h-[58px] w-auto nav-logo-emblem">
         </a>
         
         <!-- Desktop Navigation (centered) -->
@@ -124,7 +124,7 @@
   >
     <div class="mobile-drawer-inner">
       <div class="mobile-drawer-header">
-        <img src="/assets/logo-gmg-transparent.png" alt="GMG Logo" class="mobile-drawer-logo">
+        <img src="/assets/logo-gmg-emblem.svg" alt="GMG Logo" class="mobile-drawer-logo">
         <button id="mobile-close-button" class="mobile-close-btn" aria-label="Close menu">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -152,9 +152,60 @@
   <section class="relative bg-hero min-h-[95svh] flex flex-col items-center justify-center text-center vignette">
     <div class="hero-overlay fx-layer"></div>
     <div class="container-max section-padding relative z-10">
-      <img src="/assets/logo-gmg-transparent.png" alt="Greene Mechanical Group logo" class="logo-gmg mb-6 mx-auto drop-shadow-lg reveal stagger-1" loading="eager" />
+      <div class="hero-emblem mb-6 mx-auto reveal stagger-1">
+        <svg class="hero-emblem-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Greene Mechanical Group logo">
+          <defs>
+            <linearGradient id="h-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#B8943F"/>
+              <stop offset="30%" stop-color="#D4B15F"/>
+              <stop offset="50%" stop-color="#F0D488"/>
+              <stop offset="70%" stop-color="#D4B15F"/>
+              <stop offset="100%" stop-color="#B8943F"/>
+            </linearGradient>
+            <linearGradient id="h-gold-v" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#F5DFA0"/>
+              <stop offset="35%" stop-color="#D4B15F"/>
+              <stop offset="100%" stop-color="#A07C30"/>
+            </linearGradient>
+            <linearGradient id="h-ring" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#C9A84C"/>
+              <stop offset="50%" stop-color="#E8D08A"/>
+              <stop offset="100%" stop-color="#C9A84C"/>
+            </linearGradient>
+            <path id="h-top-arc" d="M 52,200 A 148,148 0 0,1 348,200"/>
+          </defs>
+          <circle cx="200" cy="200" r="195" fill="none" stroke="url(#h-ring)" stroke-width="3"/>
+          <circle cx="200" cy="200" r="187" fill="none" stroke="url(#h-ring)" stroke-width="1.5" opacity="0.5"/>
+          <text font-family="Poppins, Helvetica Neue, sans-serif" font-size="20" fill="url(#h-gold)" letter-spacing="5" font-weight="600">
+            <textPath href="#h-top-arc" startOffset="50%" text-anchor="middle">GREENE MECHANICAL GROUP</textPath>
+          </text>
+          <polygon points="50,200 56,194 62,200 56,206" fill="url(#h-gold)" opacity="0.6"/>
+          <polygon points="338,200 344,194 350,200 344,206" fill="url(#h-gold)" opacity="0.6"/>
+          <circle cx="200" cy="220" r="115" fill="none" stroke="url(#h-ring)" stroke-width="0.75" opacity="0.2"/>
+          <g fill="url(#h-gold)" opacity="0.4">
+            <ellipse cx="160" cy="338" rx="5" ry="14" transform="rotate(32, 160, 338)"/>
+            <ellipse cx="148" cy="352" rx="4.5" ry="12" transform="rotate(18, 148, 352)"/>
+            <ellipse cx="142" cy="366" rx="4" ry="10" transform="rotate(2, 142, 366)"/>
+            <ellipse cx="174" cy="326" rx="5" ry="13" transform="rotate(44, 174, 326)"/>
+            <ellipse cx="186" cy="316" rx="4.5" ry="11" transform="rotate(54, 186, 316)"/>
+          </g>
+          <path d="M200,382 Q162,362 148,315" fill="none" stroke="url(#h-gold)" stroke-width="1" opacity="0.3"/>
+          <g fill="url(#h-gold)" opacity="0.4">
+            <ellipse cx="240" cy="338" rx="5" ry="14" transform="rotate(-32, 240, 338)"/>
+            <ellipse cx="252" cy="352" rx="4.5" ry="12" transform="rotate(-18, 252, 352)"/>
+            <ellipse cx="258" cy="366" rx="4" ry="10" transform="rotate(-2, 258, 366)"/>
+            <ellipse cx="226" cy="326" rx="5" ry="13" transform="rotate(-44, 226, 326)"/>
+            <ellipse cx="214" cy="316" rx="4.5" ry="11" transform="rotate(-54, 214, 316)"/>
+          </g>
+          <path d="M200,382 Q238,362 252,315" fill="none" stroke="url(#h-gold)" stroke-width="1" opacity="0.3"/>
+          <polygon points="200,388 196,382 200,376 204,382" fill="url(#h-gold)" opacity="0.5"/>
+          <g class="hero-g-breathe">
+            <text x="200" y="262" text-anchor="middle" font-family="Georgia, Palatino Linotype, Book Antiqua, serif" font-size="170" font-weight="700" fill="url(#h-gold-v)">G</text>
+          </g>
+        </svg>
+      </div>
       <h1 class="hero-title text-gradient drop-shadow-xl mb-4 reveal stagger-2">Greene Mechanical Group</h1>
-      <p class="mt-4 text-xl md:text-2xl font-medium reveal stagger-2" style="color: rgba(40, 146, 229, 0.9);">Gas · Heating · Plumbing</p>
+      <p class="mt-4 text-xl md:text-2xl font-medium reveal stagger-2" style="color: rgba(212, 177, 95, 0.8);">Gas · Heating · Plumbing</p>
       
       <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center reveal stagger-3">
         <a href="#" data-phone class="hero-btn-primary">
@@ -436,7 +487,7 @@
     <div class="container-max">
       <div class="flex flex-col lg:flex-row items-center justify-between gap-6 md:gap-8">
         <div class="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
-          <img src="/assets/logo-gmg-transparent.png" alt="GMG Logo" class="h-14 sm:h-20 w-auto">
+          <img src="/assets/logo-gmg-emblem.svg" alt="GMG Logo" class="h-14 sm:h-20 w-auto">
           <div class="text-center sm:text-left">
             <p class="text-text font-heading font-semibold text-sm">Greene Mechanical Group</p>
             <p class="text-text-muted text-xs">RGI-registered · Cork, Ireland</p>
