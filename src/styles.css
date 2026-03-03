@@ -301,49 +301,6 @@
   z-index: 1;
 }
 
-@keyframes flame-flicker {
-  0%, 100% {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
-  25% {
-    transform: translateY(-2px) scale(1.01);
-    opacity: 0.96;
-  }
-  50% {
-    transform: translateY(-4px) scale(1.02);
-    opacity: 1;
-  }
-  75% {
-    transform: translateY(-1px) scale(1.005);
-    opacity: 0.98;
-  }
-}
-
-@keyframes flame-glow {
-  0%, 100% {
-    filter: drop-shadow(0 0 15px rgba(201, 168, 76, 0.3));
-  }
-  50% {
-    filter: drop-shadow(0 0 25px rgba(226, 202, 120, 0.5));
-  }
-}
-
-@keyframes flameGlow {
-  0% {
-    filter: drop-shadow(0 0 6px rgba(201, 168, 76, 0.4));
-    opacity: 0.9;
-  }
-  50% {
-    filter: drop-shadow(0 0 12px rgba(226, 202, 120, 0.7));
-    opacity: 1;
-  }
-  100% {
-    filter: drop-shadow(0 0 6px rgba(201, 168, 76, 0.4));
-    opacity: 0.9;
-  }
-}
-
 @keyframes breathe {
   0%, 100% {
     transform: scale(1);
@@ -353,22 +310,14 @@
   }
 }
 
-/* Legacy .logo-gmg kept for reference, replaced by hero-emblem */
-.logo-gmg {
-  width: auto;
-  height: 175px;
-  animation: flameGlow 3s ease-in-out infinite alternate, breathe 4s ease-in-out infinite;
-  will-change: filter, opacity, transform;
-}
-
-/* New hero emblem styles */
+/* Hero logo styles */
 .hero-logo-wrapper {
   display: flex;
   justify-content: center;
 }
 
 .hero-logo-img {
-  height: 180px;
+  height: 140px;
   width: auto;
   object-fit: contain;
   filter: drop-shadow(0 0 30px rgba(201, 168, 76, 0.3));
@@ -388,57 +337,61 @@
 /* Nav logo image */
 .nav-logo-img {
   filter: drop-shadow(0 0 4px rgba(201, 168, 76, 0.2));
-  transition: filter 0.3s ease, transform 0.3s ease;
-  border-radius: 2px;
+  transition: filter 0.4s ease, transform 0.4s ease, brightness 0.4s ease;
   object-fit: contain;
+  max-width: 200px;
 }
 
 .nav-logo-img:hover {
-  filter: drop-shadow(0 0 10px rgba(201, 168, 76, 0.45));
-  transform: scale(1.03);
+  filter: drop-shadow(0 0 14px rgba(201, 168, 76, 0.5)) brightness(1.15);
+  transform: scale(1.05);
 }
 
-/* Nav logo emblem */
-.nav-logo-emblem {
-  filter: drop-shadow(0 0 4px rgba(201, 168, 76, 0.2));
-  transition: filter 0.3s ease, transform 0.3s ease;
-}
-
-.nav-logo-emblem:hover {
-  filter: drop-shadow(0 0 10px rgba(201, 168, 76, 0.45));
-  transform: scale(1.03);
-}
-
-@media (max-width: 1024px) {
-  .hero-logo-img {
-    height: 150px;
+/* Hero G breathing animation */
+@keyframes heroBreathe {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 20px rgba(201, 168, 76, 0.2));
+  }
+  50% {
+    transform: scale(1.04);
+    filter: drop-shadow(0 0 35px rgba(226, 202, 120, 0.45));
   }
 }
 
-@media (max-width: 768px) {
+.hero-breathe {
+  animation: heroBreathe 4s ease-in-out infinite;
+  will-change: transform, filter;
+}
+
+@media (max-width: 1024px) {
+  .nav-logo-img {
+    max-width: 160px;
+  }
+}
+
+@media (max-width: 1024px) {
   .hero-logo-img {
     height: 120px;
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .hero-logo-img {
     height: 100px;
   }
-  .logo-gmg {
-    height: 87px;
-  }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 640px) {
   .hero-logo-img {
     height: 85px;
   }
 }
 
-.flame-animate {
-  animation: flame-flicker 3s ease-in-out infinite, flame-glow 2s ease-in-out infinite;
-  will-change: transform, filter;
+@media (max-width: 480px) {
+  .hero-logo-img {
+    height: 72px;
+  }
 }
 
 .header-scrolled {
@@ -735,7 +688,7 @@ button[type="submit"]:hover {
 
 /* Smooth transitions for parallax elements */
 .bg-hero,
-.logo-gmg,
+.hero-logo-img,
 .hero-title {
   will-change: transform, opacity;
   transition: opacity 0.3s ease-out;
@@ -964,9 +917,6 @@ body.menu-open {
     padding: 0 0.5rem;
   }
   
-  .logo-gmg {
-    height: 80px !important;
-  }
   
   .hero-btn-primary,
   .hero-btn-secondary {
@@ -1002,9 +952,6 @@ body.menu-open {
     line-height: 1.1;
   }
   
-  .logo-gmg {
-    height: 90px !important;
-  }
   
   .section-spacing {
     padding-top: 3rem;
@@ -1033,9 +980,6 @@ body.menu-open {
     background-attachment: scroll;
   }
   
-  .logo-gmg {
-    height: 100px !important;
-  }
   
   .section-padding {
     padding-left: 1rem;
@@ -1114,15 +1058,17 @@ body.menu-open {
     display: none;
   }
   
-  .flame-animate,
   .nav-logo-img {
     animation: none;
   }
 
   /* Simplify hero logo glow on mobile */
   .hero-logo-img {
-    animation: none;
     filter: drop-shadow(0 0 12px rgba(201, 168, 76, 0.25));
+  }
+
+  .hero-breathe {
+    animation: heroBreathe 5s ease-in-out infinite;
   }
 
   /* Disable hero overlay animation on mobile for performance */
@@ -1181,9 +1127,6 @@ body.menu-open {
     font-size: clamp(2.5rem, 6vw, 4rem) !important;
   }
   
-  .logo-gmg {
-    height: 130px !important;
-  }
   
   .grid-services {
     grid-template-columns: repeat(2, 1fr);

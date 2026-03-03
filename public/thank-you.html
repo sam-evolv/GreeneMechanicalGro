@@ -13,8 +13,8 @@
     :root {
       --ink: #0B0D10;
       --ink-deep: #111317;
-      --gold: #D4B15F;
-      --gas: #2892E5;
+      --gold: #C9A84C;
+      --gold-light: #E2CA78;
       --text: #EAECEF;
       --text-muted: #A9B0BA;
     }
@@ -36,7 +36,7 @@
       font-family: 'Poppins', sans-serif;
       font-size: clamp(2rem, 5vw, 3rem);
       font-weight: 600;
-      background: linear-gradient(135deg, var(--gold) 0%, #F0D488 100%);
+      background: linear-gradient(135deg, #A88B35 0%, #C9A84C 50%, #E2CA78 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -60,7 +60,7 @@
       align-items: center;
       gap: 0.5rem;
       padding: 0.875rem 2rem;
-      background: linear-gradient(135deg, var(--gold) 0%, var(--gas) 100%);
+      background: var(--gold);
       color: #0B0D10;
       font-weight: 600;
       border-radius: 9999px;
@@ -69,12 +69,12 @@
     }
     .btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(212, 177, 95, 0.3);
+      box-shadow: 0 8px 24px rgba(201, 168, 76, 0.3);
     }
   </style>
 </head>
 <body>
-  <img src="/assets/logo-gmg-emblem.svg" alt="GMG Logo" class="logo">
+  <img src="/assets/logo-g-icon.png" alt="GMG Logo" class="logo">
   <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
     <polyline points="22 4 12 14.01 9 11.01"></polyline>
