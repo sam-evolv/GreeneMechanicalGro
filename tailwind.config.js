@@ -9,10 +9,11 @@ export default {
       colors: {
         ink: '#0B0D10',
         gold: {
-          DEFAULT: '#D4B15F',
-          light: '#F0D488',
+          DEFAULT: '#C9A84C',
+          light: '#E2CA78',
+          dark: '#A88B35',
         },
-        gas: '#2892E5',
+        gas: '#C9A84C',
         text: '#EAECEF',
         muted: '#9AA3AE',
       },

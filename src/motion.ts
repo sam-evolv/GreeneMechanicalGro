@@ -30,8 +30,8 @@ export class MotionSystem {
   private setupScrollCoordinator(): void {
     // Consolidate all scroll-based effects into a single coordinated handler
     const hero = document.querySelector('.bg-hero') as HTMLElement
-    const logo = document.querySelector('.hero-emblem-svg') as HTMLElement
-    const headerLogo = document.querySelector('header img.nav-logo-emblem') as HTMLElement
+    const logo = document.querySelector('.hero-logo-img') as HTMLElement
+    const headerLogo = document.querySelector('header img.nav-logo-img') as HTMLElement
     const heroTitle = document.querySelector('.hero-title') as HTMLElement
     const heroSubtitle = document.querySelector('.hero-title + p') as HTMLElement
     const heroTitleParent = document.querySelector('.hero-title')
@@ -81,7 +81,7 @@ export class MotionSystem {
 
       // Reactive Flame Animation
       const glowIntensity = Math.min(velocity / 15, 16)
-      const glowColor = `rgba(212, 177, 95, ${Math.min(0.3 + velocity / 100, 0.8)})`
+      const glowColor = `rgba(201, 168, 76, ${Math.min(0.3 + velocity / 100, 0.8)})`
 
       if (logo && scrollY < window.innerHeight) {
         logo.style.filter = `drop-shadow(0 0 ${6 + glowIntensity}px ${glowColor})`
